@@ -1,12 +1,10 @@
-# Resume Visions 3D
+# Kowsik Naraayanan K — Portfolio
 
-Portfolio of **Kowsik Naraayanan K** — Azure Cloud Operations Engineer.
+Azure Cloud Operations Engineer portfolio with CSS 3D tilt effects.
 
-A single-page portfolio with CSS 3D tilt effects, built with TanStack Start, React, and Tailwind CSS.
+Built for hiring managers: clear experience with enterprise clients (HP, Albertsons), strong Azure / IAM / CI-CD keywords, sticky resume download, and mobile-first layout.
 
-## Development
-
-Requires Node.js 20+ (or Bun).
+## Quick start
 
 ```sh
 git clone https://github.com/Kowsikrmr/resume-visions-3d.git
@@ -16,6 +14,16 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+## Resume PDF
+
+Place your résumé at:
+
+```
+public/resume.pdf
+```
+
+The sticky header button and hero CTA both download `/resume.pdf` as `Kowsik_Naraayanan_K_Resume.pdf`.
 
 ## Scripts
 
@@ -31,4 +39,5 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - [TanStack Start](https://tanstack.com/start) + React 19
 - Tailwind CSS v4 + shadcn/ui
-- TypeScript + Vite
+- TypeScript + Vite + Nitro
+- CSS 3D perspective / tilt (disabled on touch / narrow screens for performance)
