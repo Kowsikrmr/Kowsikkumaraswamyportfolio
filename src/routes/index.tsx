@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode, lazy, Suspense } from "react";
+
+// Lazy-load the heavy 3D gallery so initial paint stays fast
+const InfiniteGallery = lazy(() => import("@/components/ui/3d-gallery-photography"));
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,16 +21,31 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "keywords", content: "Azure Cloud Operations, Azure Key Vault, Entra ID, RBAC, Azure Data Factory, GitHub Actions, CI/CD, Power BI, SQL Server, Cloud Engineer, DevOps" },
+      {
+        name: "keywords",
+        content:
+          "Azure Cloud Operations, Azure Key Vault, Entra ID, RBAC, Azure Data Factory, GitHub Actions, CI/CD, Power BI, SQL Server, Cloud Engineer, DevOps",
+      },
     ],
   }),
   component: Portfolio,
 });
 
+/* ── Data ──────────────────────────────────────────────── */
+
 const skills = [
   {
     title: "Azure Cloud",
-    items: ["Azure Data Factory", "Key Vault", "Blob Storage", "Microsoft Entra ID", "Azure CLI", "VNet", "RBAC", "Service Principals"],
+    items: [
+      "Azure Data Factory",
+      "Key Vault",
+      "Blob Storage",
+      "Microsoft Entra ID",
+      "Azure CLI",
+      "VNet",
+      "RBAC",
+      "Service Principals",
+    ],
   },
   {
     title: "DevOps & Automation",
@@ -35,7 +53,13 @@ const skills = [
   },
   {
     title: "Data & Reporting",
-    items: ["SQL Server (SSMS)", "Power BI (Control Tower)", "Power Automate", "Excel (Pivot, VLOOKUP)", "C# batch ingestion"],
+    items: [
+      "SQL Server (SSMS)",
+      "Power BI (Control Tower)",
+      "Power Automate",
+      "Excel (Pivot, VLOOKUP)",
+      "C# batch ingestion",
+    ],
   },
   {
     title: "Languages & Tools",
@@ -106,14 +130,24 @@ const education = [
   },
 ];
 
+// Portrait used in the 3D gallery (add more under public/photos/ later)
+const galleryImages = [
+  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K — professional portrait" },
+  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
+  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
+  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
+  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
+  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
+];
+
+/* ── Small UI helpers ──────────────────────────────────── */
+
 function Tilt({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    // Disable heavy 3D on coarse pointers / small screens for better mobile UX
     const isCoarse = window.matchMedia("(pointer: coarse)").matches;
     const isNarrow = window.matchMedia("(max-width: 640px)").matches;
     if (isCoarse || isNarrow) return;
@@ -122,7 +156,7 @@ function Tilt({ children, className = "" }: { children: ReactNode; className?: s
       const r = el.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
-      el.style.transform = `translateZ(24px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
+      el.style.transform = `translateZ(20px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
     };
     const onLeave = () => {
       el.style.transform = "";
@@ -144,7 +178,17 @@ function Tilt({ children, className = "" }: { children: ReactNode; className?: s
   );
 }
 
-function Section({ id, eyebrow, title, children }: { id: string; eyebrow: string; title: string; children: ReactNode }) {
+function Section({
+  id,
+  eyebrow,
+  title,
+  children,
+}: {
+  id: string;
+  eyebrow: string;
+  title: string;
+  children: ReactNode;
+}) {
   return (
     <section id={id} className="relative mx-auto w-full max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6 sm:py-20">
       <p className="font-display text-xs uppercase tracking-[0.35em] text-primary">{eyebrow}</p>
@@ -155,6 +199,8 @@ function Section({ id, eyebrow, title, children }: { id: string; eyebrow: string
     </section>
   );
 }
+
+/* ── Main page ─────────────────────────────────────────── */
 
 function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -176,14 +222,15 @@ function Portfolio() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      <div aria-hidden className="pointer-events-none fixed inset-0">
+      {/* Ambient orbs */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
         <div className="glow-orb left-[-8rem] top-[-6rem] h-[22rem] w-[22rem] bg-primary sm:h-[26rem] sm:w-[26rem]" />
         <div className="glow-orb right-[-6rem] top-[18rem] h-[20rem] w-[20rem] bg-accent [animation-delay:-5s] sm:h-[24rem] sm:w-[24rem]" />
         <div className="glow-orb bottom-[-8rem] left-1/3 h-[18rem] w-[18rem] bg-violet [animation-delay:-9s] sm:h-[22rem] sm:w-[22rem]" />
       </div>
 
-      {/* Sticky header — logo left, nav center, Download Résumé top-right */}
-      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+      {/* Sticky header */}
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/75 backdrop-blur-xl">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
           <a href="#" className="font-display shrink-0 text-base font-bold tracking-tight sm:text-lg">
             KN·K
@@ -208,7 +255,7 @@ function Portfolio() {
               <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
-              <span className="hidden xs:inline sm:inline">Résumé</span>
+              <span className="hidden sm:inline">Résumé</span>
               <span className="sm:hidden">CV</span>
             </a>
 
@@ -232,7 +279,6 @@ function Portfolio() {
           </div>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
           <nav className="border-t border-border/60 bg-background/95 px-4 py-3 sm:hidden">
             <ul className="flex flex-col gap-1">
@@ -252,55 +298,100 @@ function Portfolio() {
         )}
       </header>
 
-      {/* Hero */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 pt-10 sm:px-6 sm:pb-24 sm:pt-14">
-        <div aria-hidden className="grid-floor pointer-events-none absolute inset-x-0 bottom-0 h-48 sm:h-64" />
-        <div className="scene relative">
-          <div className="animate-rise max-w-3xl">
+      {/* ── Cinematic Hero with 3D Gallery ─────────────────── */}
+      <section className="relative z-10 h-[min(92vh,900px)] w-full overflow-hidden">
+        {/* 3D Gallery layer */}
+        <div className="absolute inset-0">
+          <Suspense
+            fallback={
+              <div className="flex h-full w-full items-center justify-center bg-background">
+                <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              </div>
+            }
+          >
+            <InfiniteGallery
+              images={galleryImages}
+              speed={0.9}
+              visibleCount={8}
+              className="h-full w-full"
+              fadeSettings={{
+                fadeIn: { start: 0.03, end: 0.18 },
+                fadeOut: { start: 0.75, end: 0.92 },
+              }}
+              blurSettings={{
+                blurIn: { start: 0.0, end: 0.1 },
+                blurOut: { start: 0.82, end: 1.0 },
+                maxBlur: 2.6,
+              }}
+            />
+          </Suspense>
+        </div>
+
+        {/* Readable gradient overlay */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/60"
+        />
+
+        {/* Hero content */}
+        <div className="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-4 pb-12 sm:px-6 sm:pb-16 md:pb-20">
+          <div className="max-w-2xl animate-rise">
             <p className="font-display text-[0.7rem] uppercase tracking-[0.35em] text-accent sm:text-xs sm:tracking-[0.4em]">
               Azure Cloud Operations Engineer
             </p>
-            <h1 className="mt-3 font-display text-4xl font-bold leading-[1.08] sm:mt-5 sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="mt-3 font-display text-4xl font-bold leading-[1.06] sm:mt-4 sm:text-5xl md:text-6xl lg:text-7xl">
               <span className="text-gradient">Kowsik Naraayanan K</span>
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base md:text-lg">
               2.5+ years managing and optimizing Azure environments for enterprise clients.
-              Specializing in secure secret management (Key Vault), IAM &amp; RBAC, Virtual Networks,
-              Azure Data Factory pipelines, GitHub Actions CI/CD, and Power BI Control Tower dashboards.
+              Key Vault, IAM &amp; RBAC, Data Factory, GitHub Actions CI/CD, and Power BI Control Tower.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3 sm:mt-9 sm:gap-4">
+            <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
               <a
                 href="/resume.pdf"
                 download="Kowsik_Naraayanan_K_Resume.pdf"
-                className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5 sm:px-7 sm:py-3"
+                className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5"
                 style={{ backgroundImage: "var(--gradient-hero)" }}
               >
                 Download Résumé
               </a>
               <a
-                href="mailto:kowsikrmr@gmail.com"
-                className="rounded-full border border-border px-6 py-2.5 font-display text-sm font-bold transition-colors hover:border-primary hover:text-primary sm:px-7 sm:py-3"
+                href="#experience"
+                className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold backdrop-blur-sm transition-colors hover:border-primary hover:text-primary"
               >
-                kowsikrmr@gmail.com
+                View Experience
               </a>
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-3 sm:gap-5">
-            {[
-              { k: "2.5+ yrs", v: "Cloud operations experience" },
-              { k: "2", v: "Enterprise clients — HP & Albertsons" },
-              { k: "M.Tech", v: "Cloud Computing @ BITS Pilani" },
-            ].map((s) => (
-              <Tilt key={s.k} className="p-5 sm:p-6">
-                <p className="font-display text-2xl font-bold text-gradient sm:text-3xl">{s.k}</p>
-                <p className="mt-1.5 text-sm text-muted-foreground">{s.v}</p>
-              </Tilt>
-            ))}
-          </div>
+          {/* Hint */}
+          <p className="mt-8 hidden text-[11px] uppercase tracking-widest text-muted-foreground/70 sm:block">
+            Scroll or use arrow keys to explore · Auto-play resumes after a few seconds
+          </p>
         </div>
       </section>
 
+      {/* Stats strip */}
+      <section className="relative z-10 border-y border-border/40 bg-background/50">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-3 sm:gap-6 sm:px-6 sm:py-10">
+          {[
+            { k: "2.5+ yrs", v: "Cloud operations experience" },
+            { k: "2", v: "Enterprise clients — HP & Albertsons" },
+            { k: "M.Tech", v: "Cloud Computing @ BITS Pilani" },
+          ].map((s) => (
+            <Tilt key={s.k} className="p-5 sm:p-6">
+              <p className="font-display text-2xl font-bold text-gradient sm:text-3xl">{s.k}</p>
+              <p className="mt-1.5 text-sm text-muted-foreground">{s.v}</p>
+            </Tilt>
+          ))}
+        </div>
+      </section>
+
+      {/* Rest of portfolio */}
       <div className="relative z-10">
         <Section id="skills" eyebrow="Toolkit" title="Technical Skills">
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
