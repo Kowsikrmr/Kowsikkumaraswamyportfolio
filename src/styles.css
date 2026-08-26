@@ -142,3 +142,99 @@
     color: var(--color-foreground);
   }
 }
+
+/* ── Portfolio design system ───────────────────────────── */
+:root {
+  --background: oklch(0.16 0.045 275);
+  --foreground: oklch(0.97 0.01 280);
+  --card: oklch(0.21 0.05 278);
+  --card-foreground: oklch(0.97 0.01 280);
+  --popover: oklch(0.21 0.05 278);
+  --popover-foreground: oklch(0.97 0.01 280);
+  --primary: oklch(0.78 0.17 195);
+  --primary-foreground: oklch(0.17 0.05 275);
+  --secondary: oklch(0.27 0.06 280);
+  --secondary-foreground: oklch(0.97 0.01 280);
+  --muted: oklch(0.26 0.05 280);
+  --muted-foreground: oklch(0.75 0.03 280);
+  --accent: oklch(0.7 0.24 330);
+  --accent-foreground: oklch(0.16 0.045 275);
+  --border: oklch(0.98 0.02 280 / 12%);
+  --input: oklch(0.98 0.02 280 / 16%);
+  --ring: oklch(0.78 0.17 195);
+  --amber: oklch(0.83 0.16 78);
+  --violet: oklch(0.66 0.22 290);
+  --radius: 1.1rem;
+  --gradient-hero: linear-gradient(115deg, oklch(0.78 0.17 195), oklch(0.66 0.22 290) 45%, oklch(0.7 0.24 330) 75%, oklch(0.83 0.16 78));
+  --gradient-card: linear-gradient(150deg, oklch(0.98 0.02 280 / 10%), oklch(0.98 0.02 280 / 2%));
+  --shadow-3d: 0 30px 60px -25px oklch(0.1 0.06 280 / 90%), 0 0 0 1px oklch(0.98 0.02 280 / 8%) inset;
+  --shadow-glow: 0 0 50px -8px oklch(0.7 0.24 330 / 45%);
+}
+
+@theme inline {
+  --color-amber: var(--amber);
+  --color-violet: var(--violet);
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "DM Sans", sans-serif;
+}
+
+body { font-family: var(--font-sans); }
+h1, h2, h3, .font-display { font-family: var(--font-display); }
+
+@utility text-gradient {
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility scene {
+  perspective: 1200px;
+}
+
+@utility card-3d {
+  background: var(--gradient-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-3d);
+  backdrop-filter: blur(14px);
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
+  will-change: transform;
+  &:hover {
+    transform: translateZ(40px) rotateX(6deg) rotateY(-6deg);
+    box-shadow: var(--shadow-3d), var(--shadow-glow);
+  }
+}
+
+@utility glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.55;
+  animation: float-orb 14s ease-in-out infinite;
+}
+
+@utility grid-floor {
+  background-image:
+    linear-gradient(oklch(0.78 0.17 195 / 18%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.7 0.24 330 / 18%) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(600px) rotateX(70deg);
+  transform-origin: bottom;
+  mask-image: linear-gradient(to top, black, transparent);
+}
+
+@keyframes float-orb {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(30px, -40px, 0) scale(1.15); }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px) rotateX(-8deg); }
+  to { opacity: 1; transform: none; }
+}
+
+@utility animate-rise {
+  animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
