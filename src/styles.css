@@ -12,10 +12,6 @@
  *
  * The :root and .dark blocks define the actual color values using oklch.
  * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
  */
 
 @theme inline {
@@ -141,6 +137,10 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* ── Portfolio design system ───────────────────────────── */
@@ -199,10 +199,13 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   box-shadow: var(--shadow-3d);
   backdrop-filter: blur(14px);
   transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.45s ease;
   will-change: transform;
-  &:hover {
-    transform: translateZ(40px) rotateX(6deg) rotateY(-6deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-3d:hover {
+    transform: translateZ(36px) rotateX(5deg) rotateY(-5deg);
     box-shadow: var(--shadow-3d), var(--shadow-glow);
   }
 }
@@ -211,7 +214,7 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   position: absolute;
   border-radius: 9999px;
   filter: blur(90px);
-  opacity: 0.55;
+  opacity: 0.5;
   animation: float-orb 14s ease-in-out infinite;
 }
 
@@ -227,14 +230,25 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
 
 @keyframes float-orb {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(30px, -40px, 0) scale(1.15); }
+  50% { transform: translate3d(30px, -40px, 0) scale(1.12); }
 }
 
 @keyframes rise {
-  from { opacity: 0; transform: translateY(28px) rotateX(-8deg); }
+  from { opacity: 0; transform: translateY(24px) rotateX(-6deg); }
   to { opacity: 1; transform: none; }
 }
 
 @utility animate-rise {
-  animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: rise 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Mobile refinements */
+@media (max-width: 640px) {
+  .glow-orb {
+    opacity: 0.35;
+    filter: blur(70px);
+  }
+  .grid-floor {
+    background-size: 40px 40px;
+  }
 }
