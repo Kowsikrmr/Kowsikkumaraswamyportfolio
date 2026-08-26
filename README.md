@@ -1,43 +1,68 @@
 # Kowsik Naraayanan K — Portfolio
 
-Azure Cloud Operations Engineer portfolio with CSS 3D tilt effects.
+Azure Cloud Operations Engineer portfolio with a cinematic 3D photo gallery hero.
 
-Built for hiring managers: clear experience with enterprise clients (HP, Albertsons), strong Azure / IAM / CI-CD keywords, sticky resume download, and mobile-first layout.
+Built with **TanStack Start**, React 19, Tailwind CSS v4, Three.js / React Three Fiber, and shadcn/ui.
 
 ## Quick start
 
-```sh
+```bash
 git clone https://github.com/Kowsikrmr/resume-visions-3d.git
 cd resume-visions-3d
-npm install   # or: bun install
+npm install          # installs three, @react-three/fiber, @react-three/drei etc.
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000
 
-## Resume PDF
+## Required assets (do this once)
 
-Place your résumé at:
+### 1. Professional photo for the 3D gallery
+
+Place your optimized portrait here:
+
+```
+public/photos/kowsik-formal.jpg
+```
+
+Recommended: square or portrait, ~800px, <200 KB JPEG.
+
+You can also add more photos later and update the `galleryImages` array in `src/routes/index.tsx`.
+
+### 2. Résumé PDF
 
 ```
 public/resume.pdf
 ```
 
-The sticky header button and hero CTA both download `/resume.pdf` as `Kowsik_Naraayanan_K_Resume.pdf`.
+Both the sticky top-right button and the hero CTA will download it as `Kowsik_Naraayanan_K_Resume.pdf`.
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start development server |
+| `npm run dev` | Development server |
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format with Prettier |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier |
 
-## Tech stack
+## Tech highlights
 
-- [TanStack Start](https://tanstack.com/start) + React 19
-- Tailwind CSS v4 + shadcn/ui
-- TypeScript + Vite + Nitro
-- CSS 3D perspective / tilt (disabled on touch / narrow screens for performance)
+- Cinematic infinite 3D gallery (cloth shader + depth fade/blur) for the hero
+- Lazy-loaded WebGL so first paint stays fast
+- Mobile: reduced plane count, lower DPR, graceful fallback
+- Sticky header with always-visible Résumé download (top-right)
+- Fully responsive, high-contrast dark theme, recruiter-focused content
+
+## Structure
+
+```
+src/
+  components/ui/3d-gallery-photography.tsx   ← the 3D component
+  routes/index.tsx                           ← portfolio page
+  styles.css                                 ← design tokens + 3D utilities
+public/
+  photos/kowsik-formal.jpg                   ← your portrait
+  resume.pdf                                 ← your CV
+```
