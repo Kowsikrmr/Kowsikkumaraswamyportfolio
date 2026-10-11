@@ -6,8 +6,11 @@ import {
   useState,
   useEffect,
   Suspense,
+  Component,
+  type ReactNode,
+  type ErrorInfo,
 } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -34,6 +37,7 @@ interface InfiniteGalleryProps {
   blurSettings?: BlurSettings;
   className?: string;
   style?: React.CSSProperties;
+  onError?: () => void;
 }
 
 interface PlaneData {
@@ -47,6 +51,24 @@ interface PlaneData {
 const DEFAULT_DEPTH_RANGE = 50;
 const MAX_HORIZONTAL_OFFSET = 8;
 const MAX_VERTICAL_OFFSET = 8;
+
+/** Error boundary so texture / WebGL failures never crash the page */
+class GalleryErrorBoundary extends Component<
+  { children: ReactNode; fallback: ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.warn("[InfiniteGallery] suppressed:", error.message, info.componentStack);
+  }
+  render() {
+    if (this.state.hasError) return this.props.fallback;
+    return this.props.children;
+  }
+}
 
 const createClothMaterial = () => {
   return new THREE.ShaderMaterial({
@@ -65,19 +87,15 @@ const createClothMaterial = () => {
       uniform float time;
       uniform float isHovered;
       varying vec2 vUv;
-
       void main() {
         vUv = uv;
         vec3 pos = position;
-
         float curveIntensity = scrollForce * 0.28;
         float distanceFromCenter = length(pos.xy);
         float curve = distanceFromCenter * distanceFromCenter * curveIntensity;
-
         float ripple1 = sin(pos.x * 2.0 + scrollForce * 3.0) * 0.018;
         float ripple2 = sin(pos.y * 2.5 + scrollForce * 2.0) * 0.012;
         float clothEffect = (ripple1 + ripple2) * abs(curveIntensity) * 1.8;
-
         float flagWave = 0.0;
         if (isHovered > 0.5) {
           float wavePhase = pos.x * 3.0 + time * 7.0;
@@ -86,7 +104,6 @@ const createClothMaterial = () => {
           flagWave = waveAmplitude * dampening;
           flagWave += sin(pos.x * 5.0 + time * 11.0) * 0.025 * dampening;
         }
-
         pos.z -= (curve + clothEffect + flagWave);
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
       }
@@ -96,10 +113,8 @@ const createClothMaterial = () => {
       uniform float opacity;
       uniform float blurAmount;
       varying vec2 vUv;
-
       void main() {
         vec4 color = texture2D(map, vUv);
-
         if (blurAmount > 0.01) {
           vec2 texelSize = 1.0 / vec2(textureSize(map, 0));
           vec4 blurred = vec4(0.0);
@@ -114,7 +129,6 @@ const createClothMaterial = () => {
           }
           color = blurred / total;
         }
-
         gl_FragColor = vec4(color.rgb, color.a * opacity);
       }
     `,
@@ -135,15 +149,11 @@ function ImagePlane({
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    if (material && texture) {
-      material.uniforms.map.value = texture;
-    }
+    if (material && texture) material.uniforms.map.value = texture;
   }, [material, texture]);
 
   useEffect(() => {
-    if (material?.uniforms) {
-      material.uniforms.isHovered.value = isHovered ? 1.0 : 0.0;
-    }
+    if (material?.uniforms) material.uniforms.isHovered.value = isHovered ? 1.0 : 0.0;
   }, [material, isHovered]);
 
   return (
@@ -172,22 +182,19 @@ function GalleryScene({
     blurOut: { start: 0.88, end: 1.0 },
     maxBlur: 2.5,
   },
-}: Omit<InfiniteGalleryProps, "className" | "style">) {
+}: Omit<InfiniteGalleryProps, "className" | "style" | "onError">) {
   const [scrollVelocity, setScrollVelocity] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
   const lastInteraction = useRef(Date.now());
 
   const normalizedImages = useMemo(
-    () =>
-      images.map((img) =>
-        typeof img === "string" ? { src: img, alt: "" } : img
-      ),
+    () => images.map((img) => (typeof img === "string" ? { src: img, alt: "" } : img)),
     [images]
   );
 
-  const textures = useTexture(normalizedImages.map((img) => img.src));
+  const urls = useMemo(() => normalizedImages.map((img) => img.src), [normalizedImages]);
+  const textures = useTexture(urls);
 
-  // Ensure textures are optimized
   useEffect(() => {
     const list = Array.isArray(textures) ? textures : [textures];
     list.forEach((t) => {
@@ -213,8 +220,7 @@ function GalleryScene({
       const horizontalRadius = (i % 3) * 1.15;
       const verticalRadius = ((i + 1) % 4) * 0.75;
       const x =
-        (Math.sin(horizontalAngle) * horizontalRadius * MAX_HORIZONTAL_OFFSET) /
-        3.2;
+        (Math.sin(horizontalAngle) * horizontalRadius * MAX_HORIZONTAL_OFFSET) / 3.2;
       const y =
         (Math.cos(verticalAngle) * verticalRadius * MAX_VERTICAL_OFFSET) / 4.2;
       positions.push({ x, y });
@@ -238,10 +244,7 @@ function GalleryScene({
   useEffect(() => {
     planesData.current = Array.from({ length: visibleCount }, (_, i) => ({
       index: i,
-      z:
-        visibleCount > 0
-          ? ((depthRange / Math.max(visibleCount, 1)) * i) % depthRange
-          : 0,
+      z: visibleCount > 0 ? ((depthRange / Math.max(visibleCount, 1)) * i) % depthRange : 0,
       imageIndex: totalImages > 0 ? i % totalImages : 0,
       x: spatialPositions[i]?.x ?? 0,
       y: spatialPositions[i]?.y ?? 0,
@@ -286,17 +289,13 @@ function GalleryScene({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (Date.now() - lastInteraction.current > 2800) {
-        setAutoPlay(true);
-      }
+      if (Date.now() - lastInteraction.current > 2800) setAutoPlay(true);
     }, 800);
     return () => clearInterval(interval);
   }, []);
 
   useFrame((state, delta) => {
-    if (autoPlay) {
-      setScrollVelocity((prev) => prev + 0.22 * delta);
-    }
+    if (autoPlay) setScrollVelocity((prev) => prev + 0.22 * delta);
     setScrollVelocity((prev) => prev * 0.94);
 
     const time = state.clock.getElapsedTime();
@@ -310,7 +309,6 @@ function GalleryScene({
     const imageAdvance =
       totalImages > 0 ? visibleCount % totalImages || totalImages : 0;
     const totalRange = depthRange;
-    const halfRange = totalRange / 2;
 
     planesData.current.forEach((plane, i) => {
       let newZ = plane.z + scrollVelocity * delta * 9.5;
@@ -428,38 +426,17 @@ function GalleryScene({
   );
 }
 
-function FallbackGallery({ images }: { images: ImageItem[] }) {
-  const normalized = useMemo(
-    () =>
-      images.map((img) =>
-        typeof img === "string" ? { src: img, alt: "" } : img
-      ),
-    [images]
-  );
-
+function GalleryLoader() {
   return (
-    <div className="flex h-full w-full items-center justify-center bg-background">
-      <div className="grid max-h-[70vh] grid-cols-2 gap-3 overflow-y-auto p-4 sm:grid-cols-3">
-        {normalized.map((img, i) => (
-          <img
-            key={i}
-            src={img.src}
-            alt={img.alt || `Portrait ${i + 1}`}
-            className="h-40 w-full rounded-lg object-cover"
-            loading="lazy"
-          />
-        ))}
-      </div>
+    <div className="flex h-full w-full items-center justify-center bg-transparent">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/40 border-t-primary" />
     </div>
   );
 }
 
-function GalleryLoader() {
-  return (
-    <div className="flex h-full w-full items-center justify-center bg-background">
-      <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-    </div>
-  );
+/** Silent empty fallback — parent provides the visual background */
+function EmptyFallback() {
+  return <div className="h-full w-full bg-transparent" />;
 }
 
 export default function InfiniteGallery({
@@ -480,6 +457,36 @@ export default function InfiniteGallery({
 }: InfiniteGalleryProps) {
   const [webglSupported, setWebglSupported] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [imagesReady, setImagesReady] = useState(false);
+
+  // Preflight: only mount WebGL scene if at least one image URL is reachable
+  useEffect(() => {
+    let cancelled = false;
+    const urls = images.map((img) => (typeof img === "string" ? img : img.src));
+
+    if (urls.length === 0) {
+      setImagesReady(false);
+      return;
+    }
+
+    Promise.all(
+      urls.slice(0, 1).map(
+        (src) =>
+          new Promise<boolean>((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = src;
+          })
+      )
+    ).then((results) => {
+      if (!cancelled) setImagesReady(results.some(Boolean));
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [images]);
 
   useEffect(() => {
     try {
@@ -498,10 +505,10 @@ export default function InfiniteGallery({
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  if (!webglSupported) {
+  if (!webglSupported || !imagesReady) {
     return (
       <div className={className} style={style}>
-        <FallbackGallery images={images} />
+        <EmptyFallback />
       </div>
     );
   }
@@ -510,27 +517,29 @@ export default function InfiniteGallery({
 
   return (
     <div className={className} style={style}>
-      <Suspense fallback={<GalleryLoader />}>
-        <Canvas
-          camera={{ position: [0, 0, 0], fov: 52 }}
-          gl={{
-            antialias: !isMobile,
-            alpha: true,
-            powerPreference: "high-performance",
-            stencil: false,
-            depth: true,
-          }}
-          dpr={isMobile ? [1, 1.5] : [1, 2]}
-        >
-          <GalleryScene
-            images={images}
-            speed={speed}
-            visibleCount={effectiveCount}
-            fadeSettings={fadeSettings}
-            blurSettings={blurSettings}
-          />
-        </Canvas>
-      </Suspense>
+      <GalleryErrorBoundary fallback={<EmptyFallback />}>
+        <Suspense fallback={<GalleryLoader />}>
+          <Canvas
+            camera={{ position: [0, 0, 0], fov: 52 }}
+            gl={{
+              antialias: !isMobile,
+              alpha: true,
+              powerPreference: "high-performance",
+              stencil: false,
+              depth: true,
+            }}
+            dpr={isMobile ? [1, 1.5] : [1, 2]}
+          >
+            <GalleryScene
+              images={images}
+              speed={speed}
+              visibleCount={effectiveCount}
+              fadeSettings={fadeSettings}
+              blurSettings={blurSettings}
+            />
+          </Canvas>
+        </Suspense>
+      </GalleryErrorBoundary>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode, lazy, Suspense } from "react";
 
-// Lazy-load the heavy 3D gallery so initial paint stays fast
 const InfiniteGallery = lazy(() => import("@/components/ui/3d-gallery-photography"));
 
 export const Route = createFileRoute("/")({
@@ -30,8 +29,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Portfolio,
 });
-
-/* ── Data ──────────────────────────────────────────────── */
 
 const skills = [
   {
@@ -130,7 +127,7 @@ const education = [
   },
 ];
 
-// Portrait used in the 3D gallery (add more under public/photos/ later)
+// Optional 3D gallery images — if the file is missing the gallery silently disables
 const galleryImages = [
   { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K — professional portrait" },
   { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
@@ -139,8 +136,6 @@ const galleryImages = [
   { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
   { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
 ];
-
-/* ── Small UI helpers ──────────────────────────────────── */
 
 function Tilt({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -199,8 +194,6 @@ function Section({
     </section>
   );
 }
-
-/* ── Main page ─────────────────────────────────────────── */
 
 function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -298,17 +291,11 @@ function Portfolio() {
         )}
       </header>
 
-      {/* ── Cinematic Hero with 3D Gallery ─────────────────── */}
-      <section className="relative z-10 h-[min(92vh,900px)] w-full overflow-hidden">
-        {/* 3D Gallery layer */}
-        <div className="absolute inset-0">
-          <Suspense
-            fallback={
-              <div className="flex h-full w-full items-center justify-center bg-background">
-                <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-              </div>
-            }
-          >
+      {/* Hero — always works; 3D gallery is progressive enhancement */}
+      <section className="relative z-10 h-[min(88vh,820px)] w-full overflow-hidden">
+        {/* Optional 3D layer (fails silently if photos missing) */}
+        <div className="absolute inset-0 opacity-90">
+          <Suspense fallback={null}>
             <InfiniteGallery
               images={galleryImages}
               speed={0.9}
@@ -327,15 +314,16 @@ function Portfolio() {
           </Suspense>
         </div>
 
-        {/* Readable gradient overlay */}
+        {/* Always-present gradient atmosphere */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/40"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/60"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background/85 via-transparent to-background/55"
         />
+        <div aria-hidden className="grid-floor pointer-events-none absolute inset-x-0 bottom-0 h-40 sm:h-56" />
 
         {/* Hero content */}
         <div className="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-4 pb-12 sm:px-6 sm:pb-16 md:pb-20">
@@ -367,15 +355,10 @@ function Portfolio() {
               </a>
             </div>
           </div>
-
-          {/* Hint */}
-          <p className="mt-8 hidden text-[11px] uppercase tracking-widest text-muted-foreground/70 sm:block">
-            Scroll or use arrow keys to explore · Auto-play resumes after a few seconds
-          </p>
         </div>
       </section>
 
-      {/* Stats strip */}
+      {/* Stats */}
       <section className="relative z-10 border-y border-border/40 bg-background/50">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-3 sm:gap-6 sm:px-6 sm:py-10">
           {[
@@ -391,7 +374,6 @@ function Portfolio() {
         </div>
       </section>
 
-      {/* Rest of portfolio */}
       <div className="relative z-10">
         <Section id="skills" eyebrow="Toolkit" title="Technical Skills">
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
