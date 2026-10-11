@@ -5,6 +5,7 @@ import { BrandMark } from "@/components/ui/brand-mark";
 import { ProjectCaseDialog } from "@/components/ui/project-case-dialog";
 import { caseStudies, caseStudyToSlide } from "@/data/case-studies";
 import { PHOTO_FORMAL } from "@/lib/photos";
+import { downloadResume } from "@/lib/resume";
 
 const PolaroidLineCarousel = lazy(() => import("@/components/ui/polaroid-line-carousel"));
 
@@ -249,16 +250,16 @@ function Portfolio() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <a
-              href="/resume.pdf"
-              download="Kowsik_Naraayanan_K_Resume.pdf"
+            <button
+              type="button"
+              onClick={downloadResume}
               className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 font-display text-xs font-bold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5 sm:px-5 sm:text-sm"
               style={{ backgroundImage: "var(--gradient-hero)" }}
               aria-label="Download résumé PDF"
             >
               <span className="hidden sm:inline">Résumé</span>
               <span className="sm:hidden">CV</span>
-            </a>
+            </button>
             <button
               type="button"
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground sm:hidden"
@@ -300,14 +301,14 @@ function Portfolio() {
               2.5+ years on Azure for HP and Albertsons — Key Vault, Entra ID & RBAC, Data Factory, GitHub Actions, and Power BI Control Tower. AWS IAM depth from M.Tech at BITS Pilani.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
-              <a
-                href="/resume.pdf"
-                download="Kowsik_Naraayanan_K_Resume.pdf"
+              <button
+                type="button"
+                onClick={downloadResume}
                 className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]"
                 style={{ backgroundImage: "var(--gradient-hero)" }}
               >
                 Download Résumé
-              </a>
+              </button>
               <a
                 href="#experience"
                 className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold backdrop-blur-sm hover:border-primary hover:text-primary"
@@ -436,9 +437,9 @@ function Portfolio() {
               <a href="https://www.linkedin.com/in/kowsiknaraayanan/" target="_blank" rel="noopener noreferrer" className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary">
                 LinkedIn
               </a>
-              <a href="/resume.pdf" download="Kowsik_Naraayanan_K_Resume.pdf" className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary">
+              <button type="button" onClick={downloadResume} className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary">
                 Résumé
-              </a>
+              </button>
             </div>
           </Tilt>
         </Section>
