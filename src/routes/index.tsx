@@ -4,6 +4,7 @@ import Footer4Col from "@/components/ui/footer-column";
 import { BrandMark } from "@/components/ui/brand-mark";
 import { ProjectCaseDialog } from "@/components/ui/project-case-dialog";
 import { caseStudies, caseStudyToSlide } from "@/data/case-studies";
+import { PHOTO_FORMAL } from "@/lib/photos";
 
 const PolaroidLineCarousel = lazy(() => import("@/components/ui/polaroid-line-carousel"));
 
@@ -244,9 +245,7 @@ function Portfolio() {
           </a>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground sm:flex">
             {navLinks.map((l) => (
-              <a key={l.href} href={l.href} className="transition-colors hover:text-primary">
-                {l.label}
-              </a>
+              <a key={l.href} href={l.href} className="transition-colors hover:text-primary">{l.label}</a>
             ))}
           </nav>
           <div className="flex items-center gap-2">
@@ -276,11 +275,7 @@ function Portfolio() {
             <ul className="flex flex-col gap-1">
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <a
-                    href={l.href}
-                    className="block rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-primary"
-                    onClick={() => setMenuOpen(false)}
-                  >
+                  <a href={l.href} className="block rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-primary" onClick={() => setMenuOpen(false)}>
                     {l.label}
                   </a>
                 </li>
@@ -323,7 +318,7 @@ function Portfolio() {
           </div>
           <div className="order-1 shrink-0 sm:order-2">
             <Portrait
-              src="/photos/kowsik-formal.jpg"
+              src={PHOTO_FORMAL}
               alt="Kowsik Naraayanan K"
               className="h-44 w-44 sm:h-56 sm:w-56 md:h-64 md:w-64"
             />
@@ -354,12 +349,7 @@ function Portfolio() {
                 <h3 className="font-display text-lg font-bold sm:text-xl">{g.title}</h3>
                 <ul className="mt-4 flex flex-wrap gap-2 sm:mt-5">
                   {g.items.map((i) => (
-                    <li
-                      key={i}
-                      className="rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-xs text-muted-foreground hover:border-primary/40 hover:text-primary sm:px-3 sm:py-1.5 sm:text-sm"
-                    >
-                      {i}
-                    </li>
+                    <li key={i} className="rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-xs text-muted-foreground hover:border-primary/40 hover:text-primary sm:px-3 sm:py-1.5 sm:text-sm">{i}</li>
                   ))}
                 </ul>
               </Tilt>
@@ -375,14 +365,10 @@ function Portfolio() {
                   <div>
                     <h3 className="font-display text-xl font-bold sm:text-2xl">{e.role}</h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      {e.company}
-                      <span className="mx-1.5 text-border">·</span>
-                      <span className="text-primary">{e.client}</span>
+                      {e.company}<span className="mx-1.5 text-border">·</span><span className="text-primary">{e.client}</span>
                     </p>
                   </div>
-                  <span className="w-fit rounded-full border border-border px-3 py-1 font-display text-xs tracking-wide text-amber sm:px-4 sm:py-1.5">
-                    {e.period}
-                  </span>
+                  <span className="w-fit rounded-full border border-border px-3 py-1 font-display text-xs tracking-wide text-amber sm:px-4 sm:py-1.5">{e.period}</span>
                 </div>
                 <div className="mt-5 space-y-5 sm:mt-6 sm:space-y-6">
                   {e.blocks.map((b) => (
@@ -406,13 +392,7 @@ function Portfolio() {
 
         <Section id="projects" eyebrow="Work" title="Selected projects">
           <div className="overflow-hidden rounded-2xl border border-border/50 bg-secondary/20">
-            <Suspense
-              fallback={
-                <div className="flex h-[min(70vh,560px)] items-center justify-center text-sm text-muted-foreground">
-                  Loading…
-                </div>
-              }
-            >
+            <Suspense fallback={<div className="flex h-[min(70vh,560px)] items-center justify-center text-sm text-muted-foreground">Loading…</div>}>
               <PolaroidLineCarousel
                 slides={caseStudies.map(caseStudyToSlide)}
                 height="min(70vh, 560px)"
@@ -450,26 +430,13 @@ function Portfolio() {
               Open to Azure Cloud Operations, DevOps, and cloud engineering roles.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="mailto:kowsikrmr@gmail.com"
-                className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]"
-                style={{ backgroundImage: "var(--gradient-hero)" }}
-              >
+              <a href="mailto:kowsikrmr@gmail.com" className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]" style={{ backgroundImage: "var(--gradient-hero)" }}>
                 Email
               </a>
-              <a
-                href="https://www.linkedin.com/in/kowsiknaraayanan/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary"
-              >
+              <a href="https://www.linkedin.com/in/kowsiknaraayanan/" target="_blank" rel="noopener noreferrer" className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary">
                 LinkedIn
               </a>
-              <a
-                href="/resume.pdf"
-                download="Kowsik_Naraayanan_K_Resume.pdf"
-                className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary"
-              >
+              <a href="/resume.pdf" download="Kowsik_Naraayanan_K_Resume.pdf" className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary">
                 Résumé
               </a>
             </div>
