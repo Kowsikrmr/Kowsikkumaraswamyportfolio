@@ -14,13 +14,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Azure Cloud Operations Engineer with 2.5+ years experience in Key Vault, Blob Storage, Entra ID, RBAC, Azure Data Factory, GitHub Actions CI/CD and Power BI Control Tower dashboards.",
+          "Azure Cloud Operations Engineer with 2.5+ years in Key Vault, Entra ID, RBAC, Data Factory, GitHub Actions CI/CD, and Power BI.",
       },
       { property: "og:title", content: "Kowsik Naraayanan K — Azure Cloud Operations Engineer" },
       {
         property: "og:description",
         content:
-          "Azure Cloud Operations Engineer specializing in secure IAM, Key Vault, Blob Storage, Entra ID, GitHub Actions CI/CD and Power BI for HP and Albertsons.",
+          "Azure Cloud Operations Engineer. Key Vault, Entra ID, RBAC, Data Factory, GitHub Actions, Power BI. HP and Albertsons.",
       },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -58,20 +58,20 @@ const experience = [
       {
         label: "Azure Cloud & Access Management · Nov 2025 — Present",
         points: [
-          "Managed Azure Blob Storage lifecycle (create/delete) using Azure CLI and Bash scripts; automated recurring tasks to reduce manual effort.",
-          "Provisioned and managed Azure Key Vaults for secure secret storage and lifecycle control.",
-          "Implemented IAM: user provisioning, role assignments and enforced Role-Based Access Control (RBAC) policies.",
-          "Designed and deployed Virtual Networks (VNet) for production environments, enabling secure and scalable connectivity.",
-          "Coordinated work across JIRA, Confluence and Citrix Workspace for task tracking, documentation and remote access.",
+          "Managed Blob Storage lifecycle with Azure CLI and Bash; automated recurring tasks.",
+          "Provisioned Key Vaults for secret storage and lifecycle control.",
+          "IAM: user provisioning, role assignments, and RBAC enforcement.",
+          "Deployed VNets for production connectivity.",
+          "Tracked work in JIRA, Confluence, and Citrix Workspace.",
         ],
       },
       {
-        label: "ETL Operations & Power BI Reporting · Apr 2025 — Nov 2025",
+        label: "ETL & Power BI · Apr 2025 — Nov 2025",
         points: [
-          "Consolidated data from Email, SharePoint, Power BI dashboards and enterprise systems (OSS, S4) for analysis.",
-          "Supported data ingestion into SQL Server (SSMS) via C# batch processes with monitoring for accuracy and consistency.",
-          "Maintained and published Power BI Control Tower dashboards delivering insights on performance, backlog and financial metrics.",
-          "Applied Excel data processing and functional exposure to Power Automate for workflow support.",
+          "Pulled data from email, SharePoint, Power BI, OSS, and S4 for analysis.",
+          "Supported SQL Server ingestion via C# batch jobs with monitoring.",
+          "Maintained Power BI Control Tower dashboards for performance, backlog, and financial metrics.",
+          "Used Excel and Power Automate for day-to-day workflow support.",
         ],
       },
     ],
@@ -79,17 +79,17 @@ const experience = [
   {
     role: "Associate Software Engineer",
     company: "Nisum Consulting Pvt Ltd, Hyderabad",
-    client: "Albertsons (Safeway) · Engineering Operations",
+    client: "Albertsons (Safeway)",
     period: "Jan 2024 — Jan 2025",
     blocks: [
       {
         label: "Cloud Engineering & CI/CD",
         points: [
-          "Implemented Azure Key Vault for secure secret storage with automated renewal; integrated with Azure services.",
-          "Configured Service Principals in Microsoft Entra ID for secure authentication and authorization.",
-          "Built scalable Azure Blob Storage solutions optimized for performance and cost; integrated with applications.",
-          "Designed and oversaw data integration pipelines in Azure Data Factory for reliable transfer and transformation.",
-          "Managed GitHub repositories and implemented GitHub Actions CI/CD pipelines to automate testing and deployment.",
+          "Key Vault for secrets with automated renewal, integrated with Azure services.",
+          "Service principals in Entra ID for app authentication.",
+          "Blob Storage solutions tuned for performance and cost.",
+          "Data Factory pipelines for transfer and transformation.",
+          "GitHub Actions CI/CD for test and deploy.",
         ],
       },
     ],
@@ -99,9 +99,9 @@ const experience = [
 const education = [
   {
     degree: "M.Tech, Cloud Computing",
-    school: "Birla Institute of Technology and Science (BITS), Pilani",
+    school: "BITS Pilani",
     period: "2025 — Present",
-    note: "M.Tech Project — AWS IAM Security Implementation: Designed and validated a secure AWS IAM solution using RBAC, ABAC, least-privilege policies, MFA, and CloudTrail/S3 audit logging.",
+    note: "Project: AWS IAM with RBAC, ABAC, least privilege, MFA, and CloudTrail/S3 audit logging.",
   },
   {
     degree: "B.E, Computer Science and Engineering",
@@ -116,9 +116,9 @@ function Tilt({ children, className = "" }: { children: ReactNode; className?: s
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const isCoarse = window.matchMedia("(pointer: coarse)").matches;
-    const isNarrow = window.matchMedia("(max-width: 640px)").matches;
-    if (isCoarse || isNarrow) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (window.matchMedia("(max-width: 640px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const onMove = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
@@ -166,14 +166,23 @@ function Section({
 }
 
 function Portrait({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
-  const [failed, setFailed] = useState(false);
+  const [ok, setOk] = useState(true);
   return (
     <div className={`photo-ring shadow-[var(--shadow-glow)] ${className}`}>
-      <div className="relative h-full w-full overflow-hidden rounded-full bg-secondary/50">
-        {!failed ? (
-          <img src={src} alt={alt} className="h-full w-full object-cover object-top" onError={() => setFailed(true)} />
+      <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-secondary/60">
+        {ok ? (
+          <img
+            src={src}
+            alt={alt}
+            width={256}
+            height={256}
+            className="h-full w-full object-cover object-top"
+            onError={() => setOk(false)}
+          />
         ) : (
-          <div className="flex h-full w-full items-center justify-center font-display text-3xl font-bold text-primary">KN</div>
+          <span className="font-display text-3xl font-bold text-primary" aria-hidden>
+            KN
+          </span>
         )}
       </div>
     </div>
@@ -186,6 +195,7 @@ function CursorGlow() {
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const move = (e: PointerEvent) => {
       el.style.left = `${e.clientX}px`;
       el.style.top = `${e.clientY}px`;
@@ -234,7 +244,9 @@ function Portfolio() {
           </a>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground sm:flex">
             {navLinks.map((l) => (
-              <a key={l.href} href={l.href} className="transition-colors hover:text-primary">{l.label}</a>
+              <a key={l.href} href={l.href} className="transition-colors hover:text-primary">
+                {l.label}
+              </a>
             ))}
           </nav>
           <div className="flex items-center gap-2">
@@ -264,7 +276,11 @@ function Portfolio() {
             <ul className="flex flex-col gap-1">
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="block rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-primary" onClick={() => setMenuOpen(false)}>
+                  <a
+                    href={l.href}
+                    className="block rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-primary"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     {l.label}
                   </a>
                 </li>
@@ -274,30 +290,43 @@ function Portfolio() {
         )}
       </header>
 
-      <section className="relative z-10 min-h-[min(90vh,860px)] w-full overflow-hidden">
+      <section className="relative z-10 min-h-[min(88vh,820px)] w-full overflow-hidden">
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/40" />
         <div aria-hidden className="grid-floor pointer-events-none absolute inset-x-0 bottom-0 h-36 sm:h-52" />
-        <div className="relative z-10 mx-auto flex min-h-[min(90vh,860px)] w-full max-w-6xl flex-col items-center justify-end gap-10 px-4 pb-14 pt-12 sm:flex-row sm:items-end sm:gap-14 sm:px-6 sm:pb-20 sm:pt-16">
+        <div className="relative z-10 mx-auto flex min-h-[min(88vh,820px)] w-full max-w-6xl flex-col items-center justify-end gap-10 px-4 pb-14 pt-12 sm:flex-row sm:items-end sm:gap-14 sm:px-6 sm:pb-20 sm:pt-16">
           <div className="order-2 max-w-xl flex-1 animate-rise sm:order-1">
-            <p className="font-display text-[0.7rem] uppercase tracking-[0.35em] text-amber sm:text-xs sm:tracking-[0.4em]">Azure Cloud Operations Engineer</p>
+            <p className="font-display text-[0.7rem] uppercase tracking-[0.35em] text-amber sm:text-xs sm:tracking-[0.4em]">
+              Azure Cloud Operations Engineer
+            </p>
             <h1 className="mt-3 font-display text-4xl font-bold leading-[1.05] sm:mt-4 sm:text-5xl md:text-6xl lg:text-7xl">
               <span className="text-gradient">Kowsik Naraayanan K</span>
             </h1>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base md:text-lg">
-              2.5+ years managing and optimizing Azure environments for enterprise clients. Key Vault, IAM & RBAC, Data Factory, GitHub Actions CI/CD, and Power BI Control Tower.
+              2.5+ years on Azure for HP and Albertsons — Key Vault, Entra ID & RBAC, Data Factory, GitHub Actions, and Power BI Control Tower. AWS IAM depth from M.Tech at BITS Pilani.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
-              <a href="/resume.pdf" download="Kowsik_Naraayanan_K_Resume.pdf" className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]" style={{ backgroundImage: "var(--gradient-hero)" }}>
+              <a
+                href="/resume.pdf"
+                download="Kowsik_Naraayanan_K_Resume.pdf"
+                className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]"
+                style={{ backgroundImage: "var(--gradient-hero)" }}
+              >
                 Download Résumé
               </a>
-              <a href="#experience" className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold backdrop-blur-sm hover:border-primary hover:text-primary">
-                View Experience
+              <a
+                href="#experience"
+                className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold backdrop-blur-sm hover:border-primary hover:text-primary"
+              >
+                Experience
               </a>
             </div>
           </div>
-          <div className="order-1 flex shrink-0 items-end gap-3 sm:order-2 sm:gap-4">
-            <Portrait src="/photos/kowsik-formal.jpg" alt="Kowsik Naraayanan K — professional portrait" className="h-48 w-48 sm:h-56 sm:w-56 md:h-64 md:w-64" />
-            <Portrait src="/photos/kowsik-casual.jpg" alt="Kowsik Naraayanan K" className="mb-4 hidden h-32 w-32 opacity-90 sm:block md:h-36 md:w-36" />
+          <div className="order-1 shrink-0 sm:order-2">
+            <Portrait
+              src="/photos/kowsik-formal.jpg"
+              alt="Kowsik Naraayanan K"
+              className="h-44 w-44 sm:h-56 sm:w-56 md:h-64 md:w-64"
+            />
           </div>
         </div>
       </section>
@@ -305,9 +334,9 @@ function Portfolio() {
       <section className="relative z-10 border-y border-border/40 bg-background/50">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-3 sm:gap-6 sm:px-6 sm:py-10">
           {[
-            { k: "2.5+ yrs", v: "Cloud operations experience" },
-            { k: "2", v: "Enterprise clients — HP & Albertsons" },
-            { k: "M.Tech", v: "Cloud Computing @ BITS Pilani" },
+            { k: "2.5+ yrs", v: "Cloud operations" },
+            { k: "HP · Albertsons", v: "Enterprise clients" },
+            { k: "M.Tech", v: "Cloud Computing, BITS Pilani" },
           ].map((s) => (
             <Tilt key={s.k} className="p-5 sm:p-6">
               <p className="font-display text-2xl font-bold text-gradient sm:text-3xl">{s.k}</p>
@@ -325,7 +354,12 @@ function Portfolio() {
                 <h3 className="font-display text-lg font-bold sm:text-xl">{g.title}</h3>
                 <ul className="mt-4 flex flex-wrap gap-2 sm:mt-5">
                   {g.items.map((i) => (
-                    <li key={i} className="rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-xs text-muted-foreground hover:border-primary/40 hover:text-primary sm:px-3 sm:py-1.5 sm:text-sm">{i}</li>
+                    <li
+                      key={i}
+                      className="rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-xs text-muted-foreground hover:border-primary/40 hover:text-primary sm:px-3 sm:py-1.5 sm:text-sm"
+                    >
+                      {i}
+                    </li>
                   ))}
                 </ul>
               </Tilt>
@@ -333,7 +367,7 @@ function Portfolio() {
           </div>
         </Section>
 
-        <Section id="experience" eyebrow="Track record" title="Professional Experience">
+        <Section id="experience" eyebrow="Track record" title="Experience">
           <div className="space-y-6 sm:space-y-8">
             {experience.map((e) => (
               <Tilt key={e.company} className="p-5 sm:p-8">
@@ -341,10 +375,14 @@ function Portfolio() {
                   <div>
                     <h3 className="font-display text-xl font-bold sm:text-2xl">{e.role}</h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      {e.company}<span className="mx-1.5 text-border">·</span><span className="text-primary">{e.client}</span>
+                      {e.company}
+                      <span className="mx-1.5 text-border">·</span>
+                      <span className="text-primary">{e.client}</span>
                     </p>
                   </div>
-                  <span className="w-fit rounded-full border border-border px-3 py-1 font-display text-xs tracking-wide text-amber sm:px-4 sm:py-1.5">{e.period}</span>
+                  <span className="w-fit rounded-full border border-border px-3 py-1 font-display text-xs tracking-wide text-amber sm:px-4 sm:py-1.5">
+                    {e.period}
+                  </span>
                 </div>
                 <div className="mt-5 space-y-5 sm:mt-6 sm:space-y-6">
                   {e.blocks.map((b) => (
@@ -366,9 +404,15 @@ function Portfolio() {
           </div>
         </Section>
 
-        <Section id="projects" eyebrow="Highlights" title="Selected Work">
+        <Section id="projects" eyebrow="Work" title="Selected projects">
           <div className="overflow-hidden rounded-2xl border border-border/50 bg-secondary/20">
-            <Suspense fallback={<div className="flex h-[min(70vh,560px)] items-center justify-center text-sm text-muted-foreground">Loading gallery…</div>}>
+            <Suspense
+              fallback={
+                <div className="flex h-[min(70vh,560px)] items-center justify-center text-sm text-muted-foreground">
+                  Loading…
+                </div>
+              }
+            >
               <PolaroidLineCarousel
                 slides={caseStudies.map(caseStudyToSlide)}
                 height="min(70vh, 560px)"
@@ -376,7 +420,7 @@ function Portfolio() {
                 background="transparent"
                 ink="var(--color-foreground)"
                 string="color-mix(in srgb, var(--color-primary) 50%, transparent)"
-                ariaLabel="Project case studies carousel"
+                ariaLabel="Project carousel"
                 onSelect={(i) => {
                   setCaseIndex(i);
                   setCaseOpen(true);
@@ -384,12 +428,10 @@ function Portfolio() {
               />
             </Suspense>
           </div>
-          <p className="mt-4 text-center text-xs text-muted-foreground">
-            Drag, use arrows, or open a print for the full case study
-          </p>
+          <p className="mt-4 text-center text-xs text-muted-foreground">Click a print for details</p>
         </Section>
 
-        <Section id="education" eyebrow="Foundation" title="Education">
+        <Section id="education" eyebrow="Education" title="Education">
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
             {education.map((ed) => (
               <Tilt key={ed.degree} className="p-5 sm:p-7">
@@ -402,20 +444,33 @@ function Portfolio() {
           </div>
         </Section>
 
-        <Section id="contact" eyebrow="Next step" title="Let's talk">
+        <Section id="contact" eyebrow="Contact" title="Get in touch">
           <Tilt className="p-6 sm:p-10">
             <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
               Open to Azure Cloud Operations, DevOps, and cloud engineering roles.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href="mailto:kowsikrmr@gmail.com" className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]" style={{ backgroundImage: "var(--gradient-hero)" }}>
-                Email me
+              <a
+                href="mailto:kowsikrmr@gmail.com"
+                className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)]"
+                style={{ backgroundImage: "var(--gradient-hero)" }}
+              >
+                Email
               </a>
-              <a href="https://www.linkedin.com/in/kowsiknaraayanan/" target="_blank" rel="noopener noreferrer" className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary">
+              <a
+                href="https://www.linkedin.com/in/kowsiknaraayanan/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary"
+              >
                 LinkedIn
               </a>
-              <a href="/resume.pdf" download="Kowsik_Naraayanan_K_Resume.pdf" className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary">
-                Download Résumé
+              <a
+                href="/resume.pdf"
+                download="Kowsik_Naraayanan_K_Resume.pdf"
+                className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold hover:border-primary hover:text-primary"
+              >
+                Résumé
               </a>
             </div>
           </Tilt>
