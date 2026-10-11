@@ -1,5 +1,6 @@
 import { Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { BrandMark } from "@/components/ui/brand-mark";
+import { downloadResume } from "@/lib/resume";
 
 const data = {
   githubLink: "https://github.com/Kowsikrmr",
@@ -128,13 +129,13 @@ export default function Footer4Col() {
             <p>
               &copy; {new Date().getFullYear()} {data.company.name}
             </p>
-            <a
-              href="/resume.pdf"
-              download="Kowsik_Naraayanan_K_Resume.pdf"
+            <button
+              type="button"
+              onClick={downloadResume}
               className="font-display text-xs font-semibold uppercase tracking-wider text-primary transition hover:text-amber"
             >
               Download Résumé
-            </a>
+            </button>
           </div>
         </div>
       </div>
