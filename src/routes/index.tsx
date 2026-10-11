@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode, lazy, Suspense } from "react";
 
-const InfiniteGallery = lazy(() => import("@/components/ui/3d-gallery-photography"));
+const PolaroidLineCarousel = lazy(() => import("@/components/ui/polaroid-line-carousel"));
+import Footer4Col from "@/components/ui/footer-column";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -10,20 +11,20 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Azure Cloud Operations Engineer with 2.5+ years experience in Key Vault, Blob Storage, Entra ID, RBAC, Azure Data Factory, GitHub Actions CI/CD and Power BI Control Tower dashboards. Open to cloud operations and DevOps roles.",
+          "Azure Cloud Operations Engineer with 2.5+ years experience in Key Vault, Blob Storage, Entra ID, RBAC, Azure Data Factory, GitHub Actions CI/CD and Power BI Control Tower dashboards.",
       },
       { property: "og:title", content: "Kowsik Naraayanan K — Azure Cloud Operations Engineer" },
       {
         property: "og:description",
         content:
-          "Azure Cloud Operations Engineer specializing in secure IAM, Key Vault, Blob Storage, Entra ID, GitHub Actions CI/CD and Power BI dashboards for enterprise clients (HP, Albertsons).",
+          "Azure Cloud Operations Engineer specializing in secure IAM, Key Vault, Blob Storage, Entra ID, GitHub Actions CI/CD and Power BI for HP and Albertsons.",
       },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "keywords",
         content:
-          "Azure Cloud Operations, Azure Key Vault, Entra ID, RBAC, Azure Data Factory, GitHub Actions, CI/CD, Power BI, SQL Server, Cloud Engineer, DevOps",
+          "Azure Cloud Operations, Azure Key Vault, Entra ID, RBAC, Azure Data Factory, GitHub Actions, CI/CD, Power BI, Cloud Engineer, DevOps",
       },
     ],
   }),
@@ -117,7 +118,7 @@ const education = [
     degree: "M.Tech, Cloud Computing",
     school: "Birla Institute of Technology and Science (BITS), Pilani",
     period: "2025 — Present",
-    note: "M.Tech Project — AWS IAM Security Implementation: Designed and validated a secure AWS IAM solution using RBAC, ABAC, least-privilege policies, MFA, and CloudTrail/S3 audit logging to enforce access control and demonstrate cloud security compliance readiness.",
+    note: "M.Tech Project — AWS IAM Security Implementation: Designed and validated a secure AWS IAM solution using RBAC, ABAC, least-privilege policies, MFA, and CloudTrail/S3 audit logging.",
   },
   {
     degree: "B.E, Computer Science and Engineering",
@@ -127,14 +128,43 @@ const education = [
   },
 ];
 
-// Optional 3D gallery images — if the file is missing the gallery silently disables
-const galleryImages = [
-  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K — professional portrait" },
-  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
-  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
-  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
-  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
-  { src: "/photos/kowsik-formal.jpg", alt: "Kowsik Naraayanan K" },
+const projectSlides = [
+  {
+    title: "Azure Key Vault",
+    caption: "Secret lifecycle & automated renewal for enterprise workloads.",
+    palette: "alpine" as const,
+    seed: 11,
+  },
+  {
+    title: "Entra ID & RBAC",
+    caption: "Least-privilege access, service principals, audit-ready policies.",
+    palette: "dusk" as const,
+    seed: 22,
+  },
+  {
+    title: "Data Factory",
+    caption: "Reliable pipelines for transfer and transformation at scale.",
+    palette: "mist" as const,
+    seed: 33,
+  },
+  {
+    title: "GitHub Actions",
+    caption: "CI/CD that ships tested builds with confidence.",
+    palette: "dawn" as const,
+    seed: 44,
+  },
+  {
+    title: "Power BI Tower",
+    caption: "Control Tower dashboards for performance and backlog.",
+    palette: "alpine" as const,
+    seed: 55,
+  },
+  {
+    title: "IAM on AWS",
+    caption: "BITS M.Tech — RBAC, ABAC, MFA, CloudTrail compliance.",
+    palette: "dusk" as const,
+    seed: 66,
+  },
 ];
 
 function Tilt({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -209,20 +239,19 @@ function Portfolio() {
   const navLinks = [
     { href: "#skills", label: "Skills" },
     { href: "#experience", label: "Experience" },
+    { href: "#projects", label: "Projects" },
     { href: "#education", label: "Education" },
     { href: "#contact", label: "Contact" },
   ];
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      {/* Ambient orbs */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
         <div className="glow-orb left-[-8rem] top-[-6rem] h-[22rem] w-[22rem] bg-primary sm:h-[26rem] sm:w-[26rem]" />
         <div className="glow-orb right-[-6rem] top-[18rem] h-[20rem] w-[20rem] bg-accent [animation-delay:-5s] sm:h-[24rem] sm:w-[24rem]" />
         <div className="glow-orb bottom-[-8rem] left-1/3 h-[18rem] w-[18rem] bg-violet [animation-delay:-9s] sm:h-[22rem] sm:w-[22rem]" />
       </div>
 
-      {/* Sticky header */}
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/75 backdrop-blur-xl">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
           <a href="#" className="font-display shrink-0 text-base font-bold tracking-tight sm:text-lg">
@@ -291,43 +320,16 @@ function Portfolio() {
         )}
       </header>
 
-      {/* Hero — always works; 3D gallery is progressive enhancement */}
-      <section className="relative z-10 h-[min(88vh,820px)] w-full overflow-hidden">
-        {/* Optional 3D layer (fails silently if photos missing) */}
-        <div className="absolute inset-0 opacity-90">
-          <Suspense fallback={null}>
-            <InfiniteGallery
-              images={galleryImages}
-              speed={0.9}
-              visibleCount={8}
-              className="h-full w-full"
-              fadeSettings={{
-                fadeIn: { start: 0.03, end: 0.18 },
-                fadeOut: { start: 0.75, end: 0.92 },
-              }}
-              blurSettings={{
-                blurIn: { start: 0.0, end: 0.1 },
-                blurOut: { start: 0.82, end: 1.0 },
-                maxBlur: 2.6,
-              }}
-            />
-          </Suspense>
-        </div>
-
-        {/* Always-present gradient atmosphere */}
+      {/* Cinematic hero with portrait */}
+      <section className="relative z-10 min-h-[min(88vh,820px)] w-full overflow-hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/40"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background/85 via-transparent to-background/55"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-background via-background/95 to-secondary/30"
         />
         <div aria-hidden className="grid-floor pointer-events-none absolute inset-x-0 bottom-0 h-40 sm:h-56" />
 
-        {/* Hero content */}
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-end px-4 pb-12 sm:px-6 sm:pb-16 md:pb-20">
-          <div className="max-w-2xl animate-rise">
+        <div className="relative z-10 mx-auto flex min-h-[min(88vh,820px)] w-full max-w-6xl flex-col items-center gap-10 px-4 pb-14 pt-10 sm:flex-row sm:items-end sm:gap-12 sm:px-6 sm:pb-16 sm:pt-16 md:pb-20">
+          <div className="order-2 max-w-xl flex-1 animate-rise sm:order-1">
             <p className="font-display text-[0.7rem] uppercase tracking-[0.35em] text-accent sm:text-xs sm:tracking-[0.4em]">
               Azure Cloud Operations Engineer
             </p>
@@ -355,10 +357,38 @@ function Portfolio() {
               </a>
             </div>
           </div>
+
+          <div className="order-1 shrink-0 sm:order-2">
+            <div className="relative mx-auto h-56 w-56 sm:h-64 sm:w-64 md:h-72 md:w-72">
+              <div
+                aria-hidden
+                className="absolute -inset-3 rounded-full opacity-60 blur-2xl"
+                style={{ backgroundImage: "var(--gradient-hero)" }}
+              />
+              <div className="relative h-full w-full overflow-hidden rounded-full border border-border/60 bg-secondary/40 shadow-[var(--shadow-3d)]">
+                <img
+                  src="/photos/kowsik-formal.jpg"
+                  alt="Kowsik Naraayanan K"
+                  className="h-full w-full object-cover object-top"
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    t.style.display = "none";
+                    const fallback = t.nextElementSibling as HTMLElement | null;
+                    if (fallback) fallback.style.display = "flex";
+                  }}
+                />
+                <div
+                  className="hidden h-full w-full items-center justify-center font-display text-4xl font-bold text-primary"
+                  aria-hidden
+                >
+                  KN
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Stats */}
       <section className="relative z-10 border-y border-border/40 bg-background/50">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-3 sm:gap-6 sm:px-6 sm:py-10">
           {[
@@ -432,46 +462,72 @@ function Portfolio() {
           </div>
         </Section>
 
+        <Section id="projects" eyebrow="Highlights" title="Selected Work">
+          <div className="overflow-hidden rounded-2xl border border-border/50 bg-secondary/20">
+            <Suspense
+              fallback={
+                <div className="flex h-[min(70vh,560px)] items-center justify-center text-sm text-muted-foreground">
+                  Loading gallery…
+                </div>
+              }
+            >
+              <PolaroidLineCarousel
+                slides={projectSlides}
+                height="min(70vh, 560px)"
+                cardWidth={280}
+                background="transparent"
+                ink="var(--color-foreground)"
+                string="color-mix(in srgb, var(--color-primary) 55%, transparent)"
+                ariaLabel="Project highlights carousel"
+              />
+            </Suspense>
+          </div>
+          <p className="mt-4 text-center text-xs text-muted-foreground">
+            Drag the line or use arrows · projects illustrated with procedural landscapes
+          </p>
+        </Section>
+
         <Section id="education" eyebrow="Foundation" title="Education">
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
             {education.map((ed) => (
               <Tilt key={ed.degree} className="p-5 sm:p-7">
-                <span className="font-display text-xs tracking-widest text-primary">{ed.period}</span>
-                <h3 className="mt-2 font-display text-lg font-bold sm:mt-3 sm:text-xl">{ed.degree}</h3>
+                <h3 className="font-display text-lg font-bold sm:text-xl">{ed.degree}</h3>
                 <p className="mt-1 text-sm text-accent">{ed.school}</p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:mt-4">{ed.note}</p>
+                <p className="mt-1 font-display text-xs tracking-wide text-primary">{ed.period}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{ed.note}</p>
               </Tilt>
             ))}
           </div>
         </Section>
 
-        <Section id="contact" eyebrow="Say hello" title="Let's build on the cloud">
-          <Tilt className="p-6 text-center sm:p-10">
-            <p className="mx-auto max-w-xl text-sm text-muted-foreground sm:text-base">
-              Open to Azure Cloud Operations, DevOps and data platform roles.
-              Available for opportunities that value secure, scalable cloud infrastructure.
+        <Section id="contact" eyebrow="Next step" title="Let's talk">
+          <Tilt className="p-6 sm:p-10">
+            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              Open to Azure Cloud Operations, DevOps, and cloud engineering roles. Reach out for a
+              conversation about how I can support your platform and security posture.
             </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-3 sm:mt-8 sm:gap-4">
+            <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href="mailto:kowsikrmr@gmail.com"
-                className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5 sm:px-7 sm:py-3"
+                className="rounded-full px-6 py-2.5 font-display text-sm font-bold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5"
                 style={{ backgroundImage: "var(--gradient-hero)" }}
               >
-                kowsikrmr@gmail.com
+                Email me
               </a>
               <a
-                href="tel:+917305768257"
-                className="rounded-full border border-border px-6 py-2.5 font-display text-sm font-bold transition-colors hover:border-accent hover:text-accent sm:px-7 sm:py-3"
+                href="/resume.pdf"
+                download="Kowsik_Naraayanan_K_Resume.pdf"
+                className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold backdrop-blur-sm transition-colors hover:border-primary hover:text-primary"
               >
-                +91 73057 68257
+                Download Résumé
               </a>
             </div>
           </Tilt>
         </Section>
+      </div>
 
-        <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground sm:py-8 sm:text-sm">
-          © {new Date().getFullYear()} Kowsik Naraayanan K · Azure Cloud Operations Engineer
-        </footer>
+      <div id="footer" className="relative z-10">
+        <Footer4Col />
       </div>
     </main>
   );
