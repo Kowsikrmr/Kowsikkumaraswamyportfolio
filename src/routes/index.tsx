@@ -181,7 +181,7 @@ function Tilt({ children, className = "" }: { children: ReactNode; className?: s
       const r = el.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
-      el.style.transform = `translateZ(20px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
+      el.style.transform = `translateZ(20px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg)`;
     };
     const onLeave = () => {
       el.style.transform = "";
@@ -225,6 +225,44 @@ function Section({
   );
 }
 
+function Portrait({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div className={`photo-ring shadow-[var(--shadow-glow)] ${className}`}>
+      <div className="relative h-full w-full overflow-hidden rounded-full bg-secondary/50">
+        {!failed ? (
+          <img
+            src={src}
+            alt={alt}
+            className="h-full w-full object-cover object-top"
+            onError={() => setFailed(true)}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center font-display text-3xl font-bold text-primary">
+            KN
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CursorGlow() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    const move = (e: PointerEvent) => {
+      el.style.left = `${e.clientX}px`;
+      el.style.top = `${e.clientY}px`;
+    };
+    window.addEventListener("pointermove", move, { passive: true });
+    return () => window.removeEventListener("pointermove", move);
+  }, []);
+  return <div ref={ref} className="cursor-glow" aria-hidden />;
+}
+
 function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -246,16 +284,19 @@ function Portfolio() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      <CursorGlow />
+
+      {/* Ambient orbs — triad: azure, indigo, amber */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
         <div className="glow-orb left-[-8rem] top-[-6rem] h-[22rem] w-[22rem] bg-primary sm:h-[26rem] sm:w-[26rem]" />
-        <div className="glow-orb right-[-6rem] top-[18rem] h-[20rem] w-[20rem] bg-accent [animation-delay:-5s] sm:h-[24rem] sm:w-[24rem]" />
-        <div className="glow-orb bottom-[-8rem] left-1/3 h-[18rem] w-[18rem] bg-violet [animation-delay:-9s] sm:h-[22rem] sm:w-[22rem]" />
+        <div className="glow-orb right-[-6rem] top-[16rem] h-[18rem] w-[18rem] bg-indigo [animation-delay:-5s] sm:h-[22rem] sm:w-[22rem]" />
+        <div className="glow-orb bottom-[-8rem] left-1/3 h-[16rem] w-[16rem] bg-amber [animation-delay:-9s] sm:h-[20rem] sm:w-[20rem]" />
       </div>
 
-      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/75 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
           <a href="#" className="font-display shrink-0 text-base font-bold tracking-tight sm:text-lg">
-            KN·K
+            <span className="text-gradient">KN·K</span>
           </a>
 
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground sm:flex">
@@ -320,19 +361,20 @@ function Portfolio() {
         )}
       </header>
 
-      <section className="relative z-10 min-h-[min(88vh,820px)] w-full overflow-hidden">
+      {/* Hero */}
+      <section className="relative z-10 min-h-[min(90vh,860px)] w-full overflow-hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-background via-background/95 to-secondary/30"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/40"
         />
-        <div aria-hidden className="grid-floor pointer-events-none absolute inset-x-0 bottom-0 h-40 sm:h-56" />
+        <div aria-hidden className="grid-floor pointer-events-none absolute inset-x-0 bottom-0 h-36 sm:h-52" />
 
-        <div className="relative z-10 mx-auto flex min-h-[min(88vh,820px)] w-full max-w-6xl flex-col items-center gap-10 px-4 pb-14 pt-10 sm:flex-row sm:items-end sm:gap-12 sm:px-6 sm:pb-16 sm:pt-16 md:pb-20">
+        <div className="relative z-10 mx-auto flex min-h-[min(90vh,860px)] w-full max-w-6xl flex-col items-center justify-end gap-10 px-4 pb-14 pt-12 sm:flex-row sm:items-end sm:gap-14 sm:px-6 sm:pb-20 sm:pt-16">
           <div className="order-2 max-w-xl flex-1 animate-rise sm:order-1">
-            <p className="font-display text-[0.7rem] uppercase tracking-[0.35em] text-accent sm:text-xs sm:tracking-[0.4em]">
+            <p className="font-display text-[0.7rem] uppercase tracking-[0.35em] text-amber sm:text-xs sm:tracking-[0.4em]">
               Azure Cloud Operations Engineer
             </p>
-            <h1 className="mt-3 font-display text-4xl font-bold leading-[1.06] sm:mt-4 sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="mt-3 font-display text-4xl font-bold leading-[1.05] sm:mt-4 sm:text-5xl md:text-6xl lg:text-7xl">
               <span className="text-gradient">Kowsik Naraayanan K</span>
             </h1>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base md:text-lg">
@@ -357,32 +399,18 @@ function Portfolio() {
             </div>
           </div>
 
-          <div className="order-1 shrink-0 sm:order-2">
-            <div className="relative mx-auto h-56 w-56 sm:h-64 sm:w-64 md:h-72 md:w-72">
-              <div
-                aria-hidden
-                className="absolute -inset-3 rounded-full opacity-60 blur-2xl"
-                style={{ backgroundImage: "var(--gradient-hero)" }}
-              />
-              <div className="relative h-full w-full overflow-hidden rounded-full border border-border/60 bg-secondary/40 shadow-[var(--shadow-3d)]">
-                <img
-                  src="/photos/kowsik-formal.jpg"
-                  alt="Kowsik Naraayanan K"
-                  className="h-full w-full object-cover object-top"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                    const fb = e.currentTarget.nextElementSibling as HTMLElement | null;
-                    if (fb) fb.style.display = "flex";
-                  }}
-                />
-                <div
-                  className="hidden h-full w-full items-center justify-center font-display text-4xl font-bold text-primary"
-                  aria-hidden
-                >
-                  KN
-                </div>
-              </div>
-            </div>
+          {/* Dual portraits — formal primary, casual secondary */}
+          <div className="order-1 flex shrink-0 items-end gap-3 sm:order-2 sm:gap-4">
+            <Portrait
+              src="/photos/kowsik-formal.jpg"
+              alt="Kowsik Naraayanan K — professional portrait"
+              className="h-48 w-48 sm:h-56 sm:w-56 md:h-64 md:w-64"
+            />
+            <Portrait
+              src="/photos/kowsik-casual.jpg"
+              alt="Kowsik Naraayanan K"
+              className="mb-4 hidden h-32 w-32 opacity-90 sm:block md:h-36 md:w-36"
+            />
           </div>
         </div>
       </section>
@@ -412,7 +440,7 @@ function Portfolio() {
                   {g.items.map((i) => (
                     <li
                       key={i}
-                      className="rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-xs text-muted-foreground sm:px-3 sm:py-1.5 sm:text-sm"
+                      className="rounded-full border border-border bg-secondary/60 px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary sm:px-3 sm:py-1.5 sm:text-sm"
                     >
                       {i}
                     </li>
@@ -433,10 +461,10 @@ function Portfolio() {
                     <p className="mt-1 text-sm text-muted-foreground">
                       {e.company}
                       <span className="mx-1.5 text-border">·</span>
-                      <span className="text-accent">{e.client}</span>
+                      <span className="text-primary">{e.client}</span>
                     </p>
                   </div>
-                  <span className="w-fit rounded-full border border-border px-3 py-1 font-display text-xs tracking-wide text-primary sm:px-4 sm:py-1.5">
+                  <span className="w-fit rounded-full border border-border px-3 py-1 font-display text-xs tracking-wide text-amber sm:px-4 sm:py-1.5">
                     {e.period}
                   </span>
                 </div>
@@ -447,7 +475,7 @@ function Portfolio() {
                       <ul className="mt-2.5 space-y-2 sm:mt-3">
                         {b.points.map((p) => (
                           <li key={p} className="flex gap-2.5 text-sm leading-relaxed text-muted-foreground sm:gap-3">
-                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                             <span>{p}</span>
                           </li>
                         ))}
@@ -475,7 +503,7 @@ function Portfolio() {
                 cardWidth={280}
                 background="transparent"
                 ink="var(--color-foreground)"
-                string="color-mix(in srgb, var(--color-primary) 55%, transparent)"
+                string="color-mix(in srgb, var(--color-primary) 50%, transparent)"
                 ariaLabel="Project highlights carousel"
               />
             </Suspense>
@@ -490,8 +518,8 @@ function Portfolio() {
             {education.map((ed) => (
               <Tilt key={ed.degree} className="p-5 sm:p-7">
                 <h3 className="font-display text-lg font-bold sm:text-xl">{ed.degree}</h3>
-                <p className="mt-1 text-sm text-accent">{ed.school}</p>
-                <p className="mt-1 font-display text-xs tracking-wide text-primary">{ed.period}</p>
+                <p className="mt-1 text-sm text-primary">{ed.school}</p>
+                <p className="mt-1 font-display text-xs tracking-wide text-amber">{ed.period}</p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{ed.note}</p>
               </Tilt>
             ))}
