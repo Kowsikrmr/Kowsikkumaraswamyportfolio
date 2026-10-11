@@ -1,5 +1,3 @@
-/** Optimized portrait data URIs — no external asset dependency. */
-export const PHOTO_FORMAL =
-  "data:image/jpeg;base64,PLACEHOLDER_FORMAL";
-export const PHOTO_CASUAL =
-  "data:image/jpeg;base64,PLACEHOLDER_CASUAL";
+/** Portrait paths under public/photos — upload real files to replace KN fallback. */
+export const PHOTO_FORMAL = "/photos/kowsik-formal.jpg";
+export const PHOTO_CASUAL = "/photos/kowsik-casual.jpg";

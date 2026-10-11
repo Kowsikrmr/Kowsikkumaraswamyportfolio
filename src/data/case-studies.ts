@@ -1,38 +1,30 @@
-import type { LandPalette } from "@/components/ui/polaroid-line-carousel";
+export type LandPalette = "dawn" | "alpine" | "dusk" | "mist";
 
 export type CaseStudy = {
   id: string;
   title: string;
-  /** Short line under the polaroid / carousel caption */
   caption: string;
   problem: string;
   built: string;
   tools: string[];
   outcome: string;
-  /** Replace with a real number when available */
-  metric: string;
   context: string;
   palette: LandPalette;
   seed: number;
 };
 
-/**
- * Project case studies for the polaroid carousel.
- * Facts only from stated experience — metrics left as [ADD METRIC].
- */
 export const caseStudies: CaseStudy[] = [
   {
     id: "key-vault",
     title: "Azure Key Vault",
-    caption: "Secret lifecycle & automated renewal for enterprise workloads.",
+    caption: "Secret storage and renewal across Azure workloads",
     problem:
-      "Application secrets and certificates needed a controlled home with rotation, not ad-hoc storage in configs or tickets.",
+      "Secrets lived in configs and tickets. Rotation was manual and hard to audit.",
     built:
-      "Provisioned and managed Azure Key Vaults for secure secret storage and lifecycle control; supported automated renewal patterns and integration with Azure services (including work at Albertsons via Nisum).",
-    tools: ["Azure Key Vault", "Azure CLI", "Service Principals", "Microsoft Entra ID"],
+      "Provisioned Key Vaults, controlled secret lifecycle, and wired renewal into Azure services at HPi and Albertsons.",
+    tools: ["Azure Key Vault", "Azure CLI", "Service Principals", "Entra ID"],
     outcome:
-      "Centralized secret storage with clearer ownership and a path to automated renewal instead of manual, error-prone handoffs.",
-    metric: "[ADD METRIC — e.g. vaults managed, secrets rotated, tickets avoided]",
+      "Secrets sit in one controlled place with a clear renewal path instead of ad-hoc handoffs.",
     context: "BCforward / HPi · Nisum / Albertsons",
     palette: "alpine",
     seed: 11,
@@ -40,15 +32,14 @@ export const caseStudies: CaseStudy[] = [
   {
     id: "entra-rbac",
     title: "Entra ID & RBAC",
-    caption: "Least-privilege access, service principals, audit-ready policies.",
+    caption: "Least-privilege access and service principals",
     problem:
-      "Access had to be granted and reviewed without over-permissioning production resources.",
+      "Production access needed to be granted and reviewed without over-permissioning accounts.",
     built:
-      "Implemented IAM with user provisioning, role assignments, and enforced Role-Based Access Control (RBAC); configured service principals in Microsoft Entra ID for secure app authentication.",
+      "User provisioning, RBAC role assignments, and Entra ID service principals for app authentication.",
     tools: ["Microsoft Entra ID", "Azure RBAC", "Service Principals", "JIRA"],
     outcome:
-      "More consistent least-privilege access patterns and service identity usage instead of shared or overly broad credentials.",
-    metric: "[ADD METRIC — e.g. roles standardized, privileged accounts reduced]",
+      "Access patterns follow least privilege; apps use service identities instead of shared credentials.",
     context: "BCforward / HPi · Nisum / Albertsons",
     palette: "dusk",
     seed: 22,
@@ -56,31 +47,29 @@ export const caseStudies: CaseStudy[] = [
   {
     id: "data-factory",
     title: "Azure Data Factory",
-    caption: "Reliable pipelines for transfer and transformation at scale.",
+    caption: "Pipelines for transfer and transformation",
     problem:
-      "Operational data needed dependable movement and transformation across systems without brittle one-off jobs.",
+      "Operational data moved through brittle one-off jobs that were hard to own.",
     built:
-      "Designed and oversaw data integration pipelines in Azure Data Factory for reliable transfer and transformation (Albertsons engineering operations).",
-    tools: ["Azure Data Factory", "Azure Blob Storage", "SQL Server"],
+      "Data Factory pipelines for transfer and transformation on Albertsons engineering operations.",
+    tools: ["Azure Data Factory", "Blob Storage", "SQL Server"],
     outcome:
-      "Structured pipelines for integration work with clearer operational ownership than ad-hoc scripts alone.",
-    metric: "[ADD METRIC — e.g. pipelines owned, failure rate, data volume]",
-    context: "Nisum / Albertsons (Safeway)",
+      "Integration work runs through structured pipelines with clearer operational ownership.",
+    context: "Nisum / Albertsons",
     palette: "mist",
     seed: 33,
   },
   {
     id: "github-actions",
     title: "GitHub Actions CI/CD",
-    caption: "CI/CD that ships tested builds with confidence.",
+    caption: "Automated test and deploy pipelines",
     problem:
-      "Releases needed automation so testing and deployment were repeatable rather than manual.",
+      "Releases depended on manual steps that did not scale with the team.",
     built:
-      "Managed GitHub repositories and implemented GitHub Actions CI/CD pipelines to automate testing and deployment for engineering operations work.",
+      "GitHub Actions pipelines for test and deploy, with repo hygiene for engineering operations.",
     tools: ["GitHub", "GitHub Actions", "Git"],
     outcome:
-      "Repeatable build and deploy path aligned with repo-based workflows instead of fully manual release steps.",
-    metric: "[ADD METRIC — e.g. deploy frequency, pipeline success rate]",
+      "Builds and deploys follow a repeatable path tied to the repository.",
     context: "Nisum / Albertsons",
     palette: "dawn",
     seed: 44,
@@ -88,15 +77,14 @@ export const caseStudies: CaseStudy[] = [
   {
     id: "power-bi-tower",
     title: "Power BI Control Tower",
-    caption: "Dashboards for performance, backlog, and financial metrics.",
+    caption: "Operational dashboards for performance and backlog",
     problem:
-      "Stakeholders needed a shared view of performance, backlog, and financial signals across operational sources.",
+      "Teams needed one view of performance, backlog, and financial signals.",
     built:
-      "Maintained and published Power BI Control Tower dashboards; consolidated inputs from email, SharePoint, enterprise systems (OSS, S4), and related sources; supported SQL Server ingestion via C# batch processes.",
-    tools: ["Power BI", "SQL Server (SSMS)", "C#", "Excel", "Power Automate"],
+      "Control Tower dashboards fed from SharePoint, email, OSS/S4, and SQL Server via C# batch jobs.",
+    tools: ["Power BI", "SQL Server", "C#", "Excel", "Power Automate"],
     outcome:
-      "Published Control Tower views that gave teams a consistent operational picture for discussion and follow-up.",
-    metric: "[ADD METRIC — e.g. dashboards owned, refresh cadence, active users]",
+      "Published dashboards gave stakeholders a shared operational picture.",
     context: "BCforward / HPi",
     palette: "alpine",
     seed: 55,
@@ -104,15 +92,14 @@ export const caseStudies: CaseStudy[] = [
   {
     id: "aws-iam",
     title: "AWS IAM Security",
-    caption: "BITS M.Tech — RBAC, ABAC, MFA, CloudTrail compliance.",
+    caption: "BITS M.Tech — RBAC, ABAC, MFA, CloudTrail",
     problem:
-      "Academic project required a secure IAM design that demonstrated least privilege, strong authentication, and auditability on AWS.",
+      "Needed a secure IAM design with least privilege, MFA, and auditable access on AWS.",
     built:
-      "Designed and validated a secure AWS IAM solution using RBAC, ABAC, least-privilege policies, MFA, and CloudTrail/S3 audit logging as part of the M.Tech Cloud Computing program at BITS Pilani.",
+      "IAM design using RBAC, ABAC, MFA, and CloudTrail/S3 logging for the M.Tech project at BITS Pilani.",
     tools: ["AWS IAM", "RBAC", "ABAC", "MFA", "CloudTrail", "S3"],
     outcome:
-      "Documented, validated IAM design showing multi-cloud security depth alongside day-to-day Azure operations experience.",
-    metric: "[ADD METRIC — optional academic grade or scope note]",
+      "Validated design that shows multi-cloud security depth next to day-to-day Azure work.",
     context: "BITS Pilani · M.Tech Cloud Computing",
     palette: "dusk",
     seed: 66,
