@@ -11,6 +11,10 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+  ssr: {
+    // Keep WebGL libs out of the server bundle — they are client-only
+    external: ["three", "@react-three/fiber", "@react-three/drei"],
+  },
   plugins: [
     tailwindcss(),
     tanstackStart({
