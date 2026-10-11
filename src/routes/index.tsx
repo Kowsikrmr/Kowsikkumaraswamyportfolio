@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode, lazy, Suspense } from "react";
+import Footer4Col from "@/components/ui/footer-column";
 
 const PolaroidLineCarousel = lazy(() => import("@/components/ui/polaroid-line-carousel"));
-import Footer4Col from "@/components/ui/footer-column";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -320,7 +320,6 @@ function Portfolio() {
         )}
       </header>
 
-      {/* Cinematic hero with portrait */}
       <section className="relative z-10 min-h-[min(88vh,820px)] w-full overflow-hidden">
         <div
           aria-hidden
@@ -371,10 +370,9 @@ function Portfolio() {
                   alt="Kowsik Naraayanan K"
                   className="h-full w-full object-cover object-top"
                   onError={(e) => {
-                    const t = e.currentTarget;
-                    t.style.display = "none";
-                    const fallback = t.nextElementSibling as HTMLElement | null;
-                    if (fallback) fallback.style.display = "flex";
+                    e.currentTarget.style.display = "none";
+                    const fb = e.currentTarget.nextElementSibling as HTMLElement | null;
+                    if (fb) fb.style.display = "flex";
                   }}
                 />
                 <div
