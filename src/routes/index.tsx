@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode, lazy, Suspense } from "react";
 import Footer4Col from "@/components/ui/footer-column";
+import { BrandMark } from "@/components/ui/brand-mark";
 
 const PolaroidLineCarousel = lazy(() => import("@/components/ui/polaroid-line-carousel"));
 
@@ -216,10 +217,17 @@ function Section({
 }) {
   return (
     <section id={id} className="relative mx-auto w-full max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6 sm:py-20">
-      <p className="font-display text-xs uppercase tracking-[0.35em] text-primary">{eyebrow}</p>
-      <h2 className="mt-3 text-2xl font-bold sm:text-3xl md:text-4xl">
-        <span className="text-gradient">{title}</span>
+      <p className="font-display text-[0.7rem] uppercase tracking-[0.32em] text-primary/90 sm:text-xs">
+        {eyebrow}
+      </p>
+      <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
+        {title}
       </h2>
+      <div
+        aria-hidden
+        className="mt-3 h-0.5 w-14 rounded-full"
+        style={{ backgroundImage: "var(--gradient-hero)" }}
+      />
       <div className="mt-8 sm:mt-10">{children}</div>
     </section>
   );
@@ -286,7 +294,6 @@ function Portfolio() {
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <CursorGlow />
 
-      {/* Ambient orbs — triad: azure, indigo, amber */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
         <div className="glow-orb left-[-8rem] top-[-6rem] h-[22rem] w-[22rem] bg-primary sm:h-[26rem] sm:w-[26rem]" />
         <div className="glow-orb right-[-6rem] top-[16rem] h-[18rem] w-[18rem] bg-indigo [animation-delay:-5s] sm:h-[22rem] sm:w-[22rem]" />
@@ -295,8 +302,9 @@ function Portfolio() {
 
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
-          <a href="#" className="font-display shrink-0 text-base font-bold tracking-tight sm:text-lg">
-            <span className="text-gradient">KN·K</span>
+          <a href="#" className="flex shrink-0 items-center gap-2 font-display text-base font-bold tracking-tight sm:text-lg">
+            <BrandMark size={30} className="shrink-0" />
+            <span className="hidden sm:inline">Kowsik</span>
           </a>
 
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground sm:flex">
@@ -361,7 +369,6 @@ function Portfolio() {
         )}
       </header>
 
-      {/* Hero */}
       <section className="relative z-10 min-h-[min(90vh,860px)] w-full overflow-hidden">
         <div
           aria-hidden
@@ -379,7 +386,7 @@ function Portfolio() {
             </h1>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-5 sm:text-base md:text-lg">
               2.5+ years managing and optimizing Azure environments for enterprise clients.
-              Key Vault, IAM &amp; RBAC, Data Factory, GitHub Actions CI/CD, and Power BI Control Tower.
+              Key Vault, IAM & RBAC, Data Factory, GitHub Actions CI/CD, and Power BI Control Tower.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
               <a
@@ -399,7 +406,6 @@ function Portfolio() {
             </div>
           </div>
 
-          {/* Dual portraits — formal primary, casual secondary */}
           <div className="order-1 flex shrink-0 items-end gap-3 sm:order-2 sm:gap-4">
             <Portrait
               src="/photos/kowsik-formal.jpg"
@@ -509,7 +515,7 @@ function Portfolio() {
             </Suspense>
           </div>
           <p className="mt-4 text-center text-xs text-muted-foreground">
-            Drag the line or use arrows · projects illustrated with procedural landscapes
+            Drag the line or use arrows
           </p>
         </Section>
 
@@ -539,6 +545,14 @@ function Portfolio() {
                 style={{ backgroundImage: "var(--gradient-hero)" }}
               >
                 Email me
+              </a>
+              <a
+                href="https://www.linkedin.com/in/kowsiknaraayanan/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-border/80 bg-background/40 px-6 py-2.5 font-display text-sm font-bold backdrop-blur-sm transition-colors hover:border-primary hover:text-primary"
+              >
+                LinkedIn
               </a>
               <a
                 href="/resume.pdf"
