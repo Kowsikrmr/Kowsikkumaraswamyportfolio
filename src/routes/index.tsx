@@ -265,8 +265,8 @@ function Portfolio() {
               <span className="font-script text-2xl text-champagne sm:text-3xl">Kowsik Naraayanan K</span>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <LiquidButton asChild variant="solid" size="lg">
-                <a href="#projects">Explore my work</a>
+              <LiquidButton href="#projects" variant="solid" size="lg">
+                Explore my work
               </LiquidButton>
               <LiquidButton
                 type="button"
@@ -428,17 +428,16 @@ function Portfolio() {
             Open to conversations about Azure cloud operations, identity and access management, DevOps, and related engineering roles.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <LiquidButton asChild variant="solid" size="lg">
-              <a href="mailto:kowsikrmr@gmail.com">Email</a>
+            <LiquidButton href="mailto:kowsikrmr@gmail.com" variant="solid" size="lg">
+              Email
             </LiquidButton>
-            <LiquidButton asChild size="lg">
-              <a
-                href="https://www.linkedin.com/in/kowsiknaraayanan/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
+            <LiquidButton
+              href="https://www.linkedin.com/in/kowsiknaraayanan/"
+              target="_blank"
+              rel="noopener noreferrer"
+              size="lg"
+            >
+              LinkedIn
             </LiquidButton>
             <LiquidButton
               type="button"
@@ -462,19 +461,16 @@ function Portfolio() {
             <p className="mt-0.5 text-xs text-muted-foreground">Azure Cloud Operations Engineer</p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
-            <LiquidButton asChild size="sm">
-              <a href="https://github.com/Kowsikrmr" target="_blank" rel="noopener noreferrer">
-                GitHub
-              </a>
+            <LiquidButton href="https://github.com/Kowsikrmr" target="_blank" rel="noopener noreferrer" size="sm">
+              GitHub
             </LiquidButton>
-            <LiquidButton asChild size="sm">
-              <a
-                href="https://www.linkedin.com/in/kowsiknaraayanan/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
+            <LiquidButton
+              href="https://www.linkedin.com/in/kowsiknaraayanan/"
+              target="_blank"
+              rel="noopener noreferrer"
+              size="sm"
+            >
+              LinkedIn
             </LiquidButton>
             <LiquidButton type="button" size="sm" onClick={downloadResume}>
               Résumé
