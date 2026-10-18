@@ -1,4 +1,4 @@
-/** Formal portrait data URI */
+/** Formal portrait — 3-chunk data URI */
 import { A0 } from "./avatar-0";
 import { A1 } from "./avatar-1";
 import { A2 } from "./avatar-2";

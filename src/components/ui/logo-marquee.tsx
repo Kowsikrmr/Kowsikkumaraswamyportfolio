@@ -4,7 +4,7 @@ import { useMotionValue, animate, motion, useReducedMotion } from "motion/react"
 import useMeasure from "react-use-measure";
 
 export type Logo = {
-  src: string;
+  src?: string;
   alt: string;
   width?: number;
   height?: number;
@@ -122,15 +122,19 @@ const InfiniteSlider = memo(function InfiniteSlider({
 });
 
 const LogoImage = memo(function LogoImage({ logo }: { logo: Logo }) {
+  const [failed, setFailed] = useState(false);
+  if (!logo.src || failed) return null;
   return (
     <img
-      alt={logo.alt}
+      alt=""
+      aria-hidden
       src={logo.src}
-      width={logo.width ?? 28}
-      height={logo.height ?? 28}
+      width={logo.width ?? 20}
+      height={logo.height ?? 20}
       loading="lazy"
       decoding="async"
-      className="pointer-events-none h-5 w-auto select-none opacity-70 grayscale transition-opacity duration-300 md:h-6"
+      onError={() => setFailed(true)}
+      className="pointer-events-none h-4 w-4 select-none opacity-80 brightness-0 invert md:h-[18px] md:w-[18px]"
     />
   );
 });
@@ -145,17 +149,17 @@ export const LogoMarquee = memo(function LogoMarquee({
   return (
     <div
       className={cn(
-        "mx-auto max-w-5xl overflow-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]",
+        "mx-auto max-w-5xl overflow-hidden py-2 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]",
         className,
       )}
       role="region"
       aria-label="Technologies and platforms"
     >
-      <InfiniteSlider gap={48} reverse duration={70} durationOnHover={30}>
+      <InfiniteSlider gap={40} reverse duration={60} durationOnHover={28}>
         {[...logos, ...logos].map((logo, i) => (
           <div
             key={`${logo.alt}-${i}`}
-            className="flex items-center gap-2.5 px-1"
+            className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5"
           >
             <LogoImage logo={logo} />
             <span className="whitespace-nowrap text-xs font-medium tracking-wide text-muted-foreground md:text-[13px]">
