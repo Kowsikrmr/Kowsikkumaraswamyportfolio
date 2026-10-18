@@ -1,37 +1,23 @@
-"use client";
-
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-/**
- * Liquid glass button — translucent surface with SVG displacement filter.
- * Use sparingly for primary CTAs. Does not replace the standard shadcn Button.
- */
-
 export const liquidbuttonVariants = cva(
-  "inline-flex items-center transition-colors justify-center cursor-pointer gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-[color,box-shadow,transform] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive",
+  "inline-flex items-center justify-center cursor-pointer gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-[color,box-shadow,transform] duration-300 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
-        default:
-          "bg-transparent hover:scale-[1.03] duration-300 transition text-ink",
-        destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-transparent text-ink hover:scale-[1.03]",
+        solid: "bg-ink text-white hover:scale-[1.03]",
+        outline: "bg-transparent text-ink hover:scale-[1.03]",
+        ghost: "bg-transparent text-ink hover:scale-[1.02]",
       },
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 text-xs gap-1.5 px-4 has-[>svg]:px-4",
-        lg: "h-10 rounded-full px-6 has-[>svg]:px-4",
-        xl: "h-12 rounded-full px-8 has-[>svg]:px-6",
-        xxl: "h-14 rounded-full px-10 has-[>svg]:px-8",
+        default: "h-9 px-4 py-2",
+        sm: "h-8 text-xs gap-1.5 px-3.5",
+        lg: "h-10 px-6",
+        xl: "h-12 px-8",
         icon: "size-9",
       },
     },
@@ -92,6 +78,7 @@ export function LiquidButton({
   const Comp = asChild ? Slot : "button";
   const reactId = React.useId().replace(/:/g, "");
   const filterId = `container-glass-${reactId}`;
+  const isSolid = variant === "solid";
 
   return (
     <Comp
@@ -100,15 +87,18 @@ export function LiquidButton({
       {...props}
     >
       <div
-        className="absolute top-0 left-0 z-0 h-full w-full rounded-full
-            shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)]
-        transition-all"
+        className={cn(
+          "absolute top-0 left-0 z-0 h-full w-full rounded-full transition-all",
+          isSolid
+            ? "shadow-[0_0_6px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.18),inset_3px_3px_0.5px_-3px_rgba(255,255,255,0.35),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.45),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.25),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.35),inset_0_0_6px_6px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.12)]"
+            : "shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)]",
+        )}
       />
       <div
         className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-full"
         style={{ backdropFilter: `url(#${filterId})` }}
       />
-      <div className="pointer-events-none relative z-10">{children}</div>
+      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
       <GlassFilter filterId={filterId} />
     </Comp>
   );
