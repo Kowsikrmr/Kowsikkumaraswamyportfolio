@@ -21,7 +21,6 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
 });
 
-/** Stack logos — simple-icons CDN, muted steel for the porcelain theme */
 const stackLogos: Logo[] = [
   { src: "https://cdn.simpleicons.org/microsoftazure/687D96", alt: "Azure" },
   { src: "https://cdn.simpleicons.org/microsoft/687D96", alt: "Microsoft" },
@@ -207,23 +206,25 @@ function Portfolio() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <button
+            <LiquidButton
               type="button"
+              variant="solid"
+              size="sm"
               onClick={downloadResume}
-              className="rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-white transition hover:bg-graphite sm:px-4 sm:py-2 sm:text-[13px]"
               aria-label="Download résumé PDF"
             >
               Résumé
-            </button>
-            <button
+            </LiquidButton>
+            <LiquidButton
               type="button"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-ink md:hidden"
+              size="icon"
+              className="md:hidden"
               onClick={() => setMenuOpen((v) => !v)}
               aria-expanded={menuOpen}
               aria-label="Toggle navigation menu"
             >
               <span className="text-lg leading-none">{menuOpen ? "×" : "☰"}</span>
-            </button>
+            </LiquidButton>
           </div>
         </div>
       </header>
@@ -264,18 +265,14 @@ function Portfolio() {
               <span className="font-script text-2xl text-champagne sm:text-3xl">Kowsik Naraayanan K</span>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="#projects"
-                className="inline-flex h-10 items-center justify-center rounded-full bg-ink px-6 text-sm font-semibold text-white transition hover:bg-graphite"
-              >
-                Explore my work
-              </a>
+              <LiquidButton asChild variant="solid" size="lg">
+                <a href="#projects">Explore my work</a>
+              </LiquidButton>
               <LiquidButton
                 type="button"
                 size="lg"
                 onClick={downloadResume}
                 aria-label="Download résumé PDF"
-                className="text-ink"
               >
                 Download résumé
               </LiquidButton>
@@ -326,7 +323,6 @@ function Portfolio() {
         </div>
       </section>
 
-      {/* Tech stack marquee */}
       <div className="border-b border-border bg-background px-4 py-8 sm:px-6 sm:py-10">
         <p className="section-label mx-auto mb-5 max-w-5xl text-center">Platforms & tools</p>
         <LogoMarquee logos={stackLogos} />
@@ -432,26 +428,23 @@ function Portfolio() {
             Open to conversations about Azure cloud operations, identity and access management, DevOps, and related engineering roles.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a
-              href="mailto:kowsikrmr@gmail.com"
-              className="inline-flex h-10 items-center justify-center rounded-full bg-ink px-6 text-sm font-semibold text-white transition hover:bg-graphite"
-            >
-              Email
-            </a>
-            <a
-              href="https://www.linkedin.com/in/kowsiknaraayanan/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-10 items-center justify-center rounded-full border border-border bg-card px-6 text-sm font-semibold text-ink transition hover:bg-secondary"
-            >
-              LinkedIn
-            </a>
+            <LiquidButton asChild variant="solid" size="lg">
+              <a href="mailto:kowsikrmr@gmail.com">Email</a>
+            </LiquidButton>
+            <LiquidButton asChild size="lg">
+              <a
+                href="https://www.linkedin.com/in/kowsiknaraayanan/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+            </LiquidButton>
             <LiquidButton
               type="button"
               size="lg"
               onClick={downloadResume}
               aria-label="Download résumé PDF"
-              className="text-ink"
             >
               Résumé
             </LiquidButton>
@@ -468,21 +461,24 @@ function Portfolio() {
             <p className="text-sm font-medium text-ink">Kowsik Naraayanan K</p>
             <p className="mt-0.5 text-xs text-muted-foreground">Azure Cloud Operations Engineer</p>
           </div>
-          <div className="flex items-center gap-5 text-sm text-muted-foreground">
-            <a href="https://github.com/Kowsikrmr" target="_blank" rel="noopener noreferrer" className="hover:text-ink">
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/kowsiknaraayanan/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-ink"
-            >
-              LinkedIn
-            </a>
-            <button type="button" onClick={downloadResume} className="hover:text-ink">
+          <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
+            <LiquidButton asChild size="sm">
+              <a href="https://github.com/Kowsikrmr" target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            </LiquidButton>
+            <LiquidButton asChild size="sm">
+              <a
+                href="https://www.linkedin.com/in/kowsiknaraayanan/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+            </LiquidButton>
+            <LiquidButton type="button" size="sm" onClick={downloadResume}>
               Résumé
-            </button>
+            </LiquidButton>
           </div>
           <p className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()}</p>
         </div>
