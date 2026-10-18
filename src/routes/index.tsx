@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
+import { LogoMarquee, type Logo } from "@/components/ui/logo-marquee";
 import { ProjectCaseDialog } from "@/components/ui/project-case-dialog";
 import { caseStudies } from "@/data/case-studies";
 import { PHOTO_FORMAL } from "@/lib/photos";
@@ -19,6 +20,22 @@ export const Route = createFileRoute("/")({
   }),
   component: Portfolio,
 });
+
+/** Stack logos — simple-icons CDN, muted steel for the porcelain theme */
+const stackLogos: Logo[] = [
+  { src: "https://cdn.simpleicons.org/microsoftazure/687D96", alt: "Azure" },
+  { src: "https://cdn.simpleicons.org/microsoft/687D96", alt: "Microsoft" },
+  { src: "https://cdn.simpleicons.org/amazonwebservices/687D96", alt: "AWS" },
+  { src: "https://cdn.simpleicons.org/github/687D96", alt: "GitHub" },
+  { src: "https://cdn.simpleicons.org/githubactions/687D96", alt: "GitHub Actions" },
+  { src: "https://cdn.simpleicons.org/powerbi/687D96", alt: "Power BI" },
+  { src: "https://cdn.simpleicons.org/microsoftsqlserver/687D96", alt: "SQL Server" },
+  { src: "https://cdn.simpleicons.org/python/687D96", alt: "Python" },
+  { src: "https://cdn.simpleicons.org/dotnet/687D96", alt: ".NET / C#" },
+  { src: "https://cdn.simpleicons.org/jira/687D96", alt: "Jira" },
+  { src: "https://cdn.simpleicons.org/confluence/687D96", alt: "Confluence" },
+  { src: "https://cdn.simpleicons.org/gnubash/687D96", alt: "Bash" },
+];
 
 const expertise = [
   {
@@ -308,6 +325,12 @@ function Portfolio() {
           ))}
         </div>
       </section>
+
+      {/* Tech stack marquee */}
+      <div className="border-b border-border bg-background px-4 py-8 sm:px-6 sm:py-10">
+        <p className="section-label mx-auto mb-5 max-w-5xl text-center">Platforms & tools</p>
+        <LogoMarquee logos={stackLogos} />
+      </div>
 
       <Section id="expertise" label="Toolkit" title="Technical expertise">
         <div className="grid gap-6 sm:grid-cols-2">
