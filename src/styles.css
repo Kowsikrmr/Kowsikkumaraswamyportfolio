@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Quiet technological luxury — editorial cloud portfolio
- * Porcelain canvas, midnight ink, steel-blue accent, champagne detail.
+ * Black editorial — Pinterest / Instagram ready
+ * Near-black canvas, warm ivory type, champagne + steel accents.
  */
 
 @theme inline {
@@ -47,50 +47,52 @@
 :root {
   --radius: 0.75rem;
 
-  /* Porcelain editorial canvas */
-  --background: #f7f5f0;
-  --foreground: #111318;
+  /* Near-black canvas */
+  --background: #080809;
+  --foreground: #f3f0ea;
 
-  --card: #ffffff;
-  --card-foreground: #111318;
-  --popover: #ffffff;
-  --popover-foreground: #111318;
+  --card: #121214;
+  --card-foreground: #f3f0ea;
+  --popover: #121214;
+  --popover-foreground: #f3f0ea;
 
-  /* Steel blue — technical accent */
-  --primary: #687d96;
-  --primary-foreground: #ffffff;
+  /* Soft steel accent */
+  --primary: #9aafc4;
+  --primary-foreground: #080809;
 
-  --secondary: #f0eeea;
-  --secondary-foreground: #24262a;
+  --secondary: #1a1a1d;
+  --secondary-foreground: #e8e4dc;
 
-  --muted: #eceae4;
-  --muted-foreground: #777981;
+  --muted: #1a1a1d;
+  --muted-foreground: #8b8a92;
 
-  /* Champagne accent */
-  --accent: #ae9670;
-  --accent-foreground: #111318;
+  /* Champagne */
+  --accent: #c4a574;
+  --accent-foreground: #080809;
 
-  --destructive: #b42318;
+  --destructive: #e05a50;
   --destructive-foreground: #ffffff;
 
-  --border: rgba(17, 19, 24, 0.08);
-  --input: rgba(17, 19, 24, 0.1);
-  --ring: #687d96;
+  --border: rgba(243, 240, 234, 0.08);
+  --input: rgba(243, 240, 234, 0.1);
+  --ring: #9aafc4;
 
-  --champagne: #ae9670;
-  --steel: #687d96;
-  --ink: #111318;
-  --graphite: #24262a;
+  --champagne: #c4a574;
+  --steel: #9aafc4;
+  /* ink = primary type on dark (warm ivory) */
+  --ink: #f3f0ea;
+  --graphite: #1c1c1f;
 
   --shadow-soft:
-    0 1px 2px rgba(17, 19, 24, 0.04),
-    0 8px 24px -12px rgba(17, 19, 24, 0.12);
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 12px 32px -12px rgba(0, 0, 0, 0.55);
   --shadow-lift:
-    0 2px 4px rgba(17, 19, 24, 0.04),
-    0 16px 40px -16px rgba(17, 19, 24, 0.14);
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(255, 255, 255, 0.55);
-  --glass-highlight: rgba(255, 255, 255, 0.85);
+    0 2px 8px rgba(0, 0, 0, 0.35),
+    0 24px 48px -16px rgba(0, 0, 0, 0.65);
+
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.18);
 }
 
 @layer base {
@@ -100,6 +102,7 @@
 
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
 
   body {
@@ -125,7 +128,7 @@
   }
 
   ::selection {
-    background: rgba(104, 125, 150, 0.22);
+    background: rgba(196, 165, 116, 0.35);
     color: var(--foreground);
   }
 
@@ -136,39 +139,28 @@
   }
 }
 
-/* Floating liquid glass nav */
+/* Floating glass nav — dark */
 @utility glass-nav {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(1.2);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid var(--glass-border);
+  background: rgba(18, 18, 20, 0.72);
+  backdrop-filter: blur(22px) saturate(1.3);
+  -webkit-backdrop-filter: blur(22px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
-    0 1px 0 var(--glass-highlight) inset,
-    0 8px 32px -12px rgba(17, 19, 24, 0.12);
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 12px 40px -12px rgba(0, 0, 0, 0.55);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass-nav {
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(18, 18, 20, 0.95);
   }
 }
 
 @utility surface-card {
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-soft);
-}
-
-@utility hairline {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(17, 19, 24, 0.12) 20%,
-    rgba(17, 19, 24, 0.12) 80%,
-    transparent
-  );
 }
 
 @utility section-label {
