@@ -22,18 +22,18 @@ export const Route = createFileRoute("/")({
 });
 
 const stackLogos: Logo[] = [
-  { src: "https://cdn.simpleicons.org/microsoftazure/687D96", alt: "Azure" },
-  { src: "https://cdn.simpleicons.org/microsoft/687D96", alt: "Microsoft" },
-  { src: "https://cdn.simpleicons.org/amazonwebservices/687D96", alt: "AWS" },
-  { src: "https://cdn.simpleicons.org/github/687D96", alt: "GitHub" },
-  { src: "https://cdn.simpleicons.org/githubactions/687D96", alt: "GitHub Actions" },
-  { src: "https://cdn.simpleicons.org/powerbi/687D96", alt: "Power BI" },
-  { src: "https://cdn.simpleicons.org/microsoftsqlserver/687D96", alt: "SQL Server" },
-  { src: "https://cdn.simpleicons.org/python/687D96", alt: "Python" },
-  { src: "https://cdn.simpleicons.org/dotnet/687D96", alt: ".NET / C#" },
-  { src: "https://cdn.simpleicons.org/jira/687D96", alt: "Jira" },
-  { src: "https://cdn.simpleicons.org/confluence/687D96", alt: "Confluence" },
-  { src: "https://cdn.simpleicons.org/gnubash/687D96", alt: "Bash" },
+  { src: "https://cdn.simpleicons.org/microsoftazure/A8B4C4", alt: "Azure" },
+  { src: "https://cdn.simpleicons.org/microsoft/A8B4C4", alt: "Microsoft" },
+  { src: "https://cdn.simpleicons.org/amazonwebservices/A8B4C4", alt: "AWS" },
+  { src: "https://cdn.simpleicons.org/github/A8B4C4", alt: "GitHub" },
+  { src: "https://cdn.simpleicons.org/githubactions/A8B4C4", alt: "GitHub Actions" },
+  { src: "https://cdn.simpleicons.org/powerbi/A8B4C4", alt: "Power BI" },
+  { src: "https://cdn.simpleicons.org/microsoftsqlserver/A8B4C4", alt: "SQL Server" },
+  { src: "https://cdn.simpleicons.org/python/A8B4C4", alt: "Python" },
+  { src: "https://cdn.simpleicons.org/dotnet/A8B4C4", alt: ".NET / C#" },
+  { src: "https://cdn.simpleicons.org/jira/A8B4C4", alt: "Jira" },
+  { src: "https://cdn.simpleicons.org/confluence/A8B4C4", alt: "Confluence" },
+  { src: "https://cdn.simpleicons.org/gnubash/A8B4C4", alt: "Bash" },
 ];
 
 const expertise = [
@@ -137,25 +137,27 @@ function Section({
   label,
   title,
   children,
-  dark = false,
+  elevated = false,
 }: {
   id: string;
   label: string;
   title: string;
   children: ReactNode;
-  dark?: boolean;
+  elevated?: boolean;
 }) {
   return (
     <section
       id={id}
       className={`scroll-mt-28 px-4 py-16 sm:px-6 sm:py-24 ${
-        dark ? "bg-ink text-white" : "bg-background text-foreground"
-      }`}
+        elevated ? "bg-[#0c0c0e]" : "bg-background"
+      } text-foreground`}
     >
       <div className="mx-auto w-full max-w-5xl">
-        <p className={`section-label ${dark ? "text-white/50" : ""}`}>{label}</p>
-        <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl md:text-[2.75rem]">{title}</h2>
-        <div className={`mt-3 h-px w-12 ${dark ? "bg-white/20" : "bg-border"}`} />
+        <p className="section-label">{label}</p>
+        <h2 className="mt-3 font-display text-3xl tracking-tight text-ink sm:text-4xl md:text-[2.75rem]">
+          {title}
+        </h2>
+        <div className="mt-3 h-px w-12 bg-champagne/40" />
         <div className="mt-10 sm:mt-12">{children}</div>
       </div>
     </section>
@@ -189,7 +191,7 @@ function Portfolio() {
       <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4">
         <div className="glass-nav flex w-full max-w-5xl items-center justify-between gap-3 rounded-full px-3 py-2 sm:px-5 sm:py-2.5">
           <a href="#" className="flex shrink-0 items-center gap-2.5 pl-1">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink font-display text-sm text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f3f0ea] font-display text-sm text-[#080809]">
               KN
             </span>
             <span className="hidden font-sans text-sm font-semibold tracking-tight text-ink sm:inline">
@@ -250,7 +252,8 @@ function Portfolio() {
       )}
 
       <section className="relative px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-36">
-        <div className="mx-auto grid w-full max-w-5xl gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-16">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(154,175,196,0.08),transparent_55%)]" />
+        <div className="relative mx-auto grid w-full max-w-5xl gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-16">
           <div className="animate-fade-up">
             <p className="section-label">Azure Cloud Operations Engineer</p>
             <h1 className="mt-5 font-display text-[clamp(2.5rem,6vw,4.25rem)] leading-[1.05] tracking-tight text-ink">
@@ -283,7 +286,7 @@ function Portfolio() {
             className="relative mx-auto w-full max-w-xs animate-fade-up lg:mx-0 lg:max-w-none"
             style={{ animationDelay: "0.12s" }}
           >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-secondary shadow-[var(--shadow-lift)]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-secondary shadow-[var(--shadow-lift)] ring-1 ring-white/10">
               <img
                 src={PHOTO_FORMAL}
                 alt="Kowsik Naraayanan K"
@@ -293,7 +296,7 @@ function Portfolio() {
               />
             </div>
             <svg
-              className="pointer-events-none absolute -bottom-4 -left-4 hidden h-24 w-32 text-steel/30 sm:block"
+              className="pointer-events-none absolute -bottom-4 -left-4 hidden h-24 w-32 text-steel/40 sm:block"
               viewBox="0 0 120 80"
               fill="none"
               aria-hidden
@@ -308,7 +311,7 @@ function Portfolio() {
         </div>
       </section>
 
-      <section id="about" className="border-y border-border bg-card px-4 py-10 sm:px-6 sm:py-12">
+      <section id="about" className="border-y border-border bg-card/80 px-4 py-10 sm:px-6 sm:py-12">
         <div className="mx-auto grid w-full max-w-5xl gap-8 sm:grid-cols-3 sm:gap-6">
           {[
             { k: "2.5+ years", v: "Cloud operations across Azure environments" },
@@ -346,7 +349,7 @@ function Portfolio() {
         </div>
       </Section>
 
-      <Section id="experience" label="Track record" title="Experience">
+      <Section id="experience" label="Track record" title="Experience" elevated>
         <div className="space-y-10">
           {experience.map((e) => (
             <article
@@ -358,7 +361,7 @@ function Portfolio() {
                 <h3 className="font-display text-2xl text-ink">{e.role}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {e.company}
-                  <span className="mx-1.5 text-border">·</span>
+                  <span className="mx-1.5 text-muted-foreground/40">·</span>
                   <span className="text-steel">{e.client}</span>
                 </p>
                 <div className="mt-5 space-y-5">
@@ -385,8 +388,8 @@ function Portfolio() {
         </div>
       </Section>
 
-      <Section id="projects" label="Work" title="Selected work" dark>
-        <p className="mb-8 max-w-2xl text-sm leading-relaxed text-white/60">
+      <Section id="projects" label="Work" title="Selected work">
+        <p className="mb-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Focus areas from enterprise engagements and academic work. Each entry reflects real responsibilities — not standalone products.
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -398,18 +401,20 @@ function Portfolio() {
                 setCaseIndex(i);
                 setCaseOpen(true);
               }}
-              className="group rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left transition hover:border-white/20 hover:bg-white/[0.07]"
+              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-left transition hover:border-champagne/30 hover:bg-white/[0.06]"
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">{cs.context}</p>
-              <h3 className="mt-2 font-display text-xl text-white">{cs.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/55">{cs.caption}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                {cs.context}
+              </p>
+              <h3 className="mt-2 font-display text-xl text-ink">{cs.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{cs.caption}</p>
               <p className="mt-4 text-xs font-medium text-champagne">View details →</p>
             </button>
           ))}
         </div>
       </Section>
 
-      <Section id="education" label="Education" title="Education">
+      <Section id="education" label="Education" title="Education" elevated>
         <div className="grid gap-6 sm:grid-cols-2">
           {education.map((ed) => (
             <div key={ed.degree} className="surface-card p-6 sm:p-7">
