@@ -3,14 +3,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 export const liquidbuttonVariants = cva(
-  "inline-flex items-center justify-center cursor-pointer gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-[color,box-shadow,transform] duration-300 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 no-underline",
+  "inline-flex items-center justify-center cursor-pointer gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-[transform,box-shadow,background-color] duration-300 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 no-underline",
   {
     variants: {
       variant: {
-        default: "bg-transparent text-ink hover:scale-[1.03]",
-        solid: "bg-ink text-white hover:scale-[1.03]",
-        outline: "bg-transparent text-ink hover:scale-[1.03]",
-        ghost: "bg-transparent text-ink hover:scale-[1.02]",
+        default: "text-ink hover:scale-[1.03]",
+        solid: "text-white hover:scale-[1.03]",
+        outline: "text-ink hover:scale-[1.03]",
+        ghost: "text-ink hover:scale-[1.02]",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -26,42 +26,6 @@ export const liquidbuttonVariants = cva(
     },
   },
 );
-
-function GlassFilter({ filterId }: { filterId: string }) {
-  return (
-    <svg className="pointer-events-none absolute h-0 w-0" aria-hidden>
-      <defs>
-        <filter
-          id={filterId}
-          x="0%"
-          y="0%"
-          width="100%"
-          height="100%"
-          colorInterpolationFilters="sRGB"
-        >
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.05 0.05"
-            numOctaves="1"
-            seed="1"
-            result="turbulence"
-          />
-          <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="blurredNoise"
-            scale="70"
-            xChannelSelector="R"
-            yChannelSelector="B"
-            result="displaced"
-          />
-          <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
-          <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-        </filter>
-      </defs>
-    </svg>
-  );
-}
 
 type LiquidButtonProps = VariantProps<typeof liquidbuttonVariants> & {
   className?: string;
@@ -89,28 +53,74 @@ export function LiquidButton({
   disabled,
   ...rest
 }: LiquidButtonProps) {
-  const reactId = React.useId().replace(/:/g, "");
-  const filterId = `container-glass-${reactId}`;
   const isSolid = variant === "solid";
 
-  const classes = cn("relative", liquidbuttonVariants({ variant, size, className }));
+  const classes = cn(
+    "relative isolate overflow-hidden",
+    liquidbuttonVariants({ variant, size, className }),
+  );
 
+  /*
+   * Visible liquid glass stack:
+   * 1) Frosted translucent fill + real backdrop-blur
+   * 2) Specular top rim + deep inset edge
+   * 3) Soft outer glow / depth shadow
+   */
   const glass = (
     <>
-      <div
+      {/* Frosted body */}
+      <span
+        aria-hidden
         className={cn(
-          "absolute top-0 left-0 z-0 h-full w-full rounded-full transition-all",
+          "pointer-events-none absolute inset-0 rounded-full",
           isSolid
-            ? "shadow-[0_0_6px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.18),inset_3px_3px_0.5px_-3px_rgba(255,255,255,0.35),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.45),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.25),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.35),inset_0_0_6px_6px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.12)]"
-            : "shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)]",
+            ? "bg-ink/92"
+            : "bg-white/55",
+        )}
+        style={{
+          backdropFilter: isSolid
+            ? "blur(14px) saturate(1.35)"
+            : "blur(18px) saturate(1.6)",
+          WebkitBackdropFilter: isSolid
+            ? "blur(14px) saturate(1.35)"
+            : "blur(18px) saturate(1.6)",
+        }}
+      />
+
+      {/* Specular highlight (top glass rim) */}
+      <span
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-x-[10%] top-0 h-[45%] rounded-full",
+          isSolid
+            ? "bg-gradient-to-b from-white/35 via-white/10 to-transparent"
+            : "bg-gradient-to-b from-white/90 via-white/35 to-transparent",
         )}
       />
-      <div
-        className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-full"
-        style={{ backdropFilter: `url(#${filterId})` }}
+
+      {/* Edge rim + depth */}
+      <span
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-0 rounded-full",
+          isSolid
+            ? "shadow-[inset_0_1px_0_rgba(255,255,255,0.4),inset_0_-1px_0_rgba(0,0,0,0.45),inset_1px_1px_0_rgba(255,255,255,0.12),0_4px_16px_rgba(0,0,0,0.22),0_1px_3px_rgba(0,0,0,0.12)] ring-1 ring-white/15"
+            : "shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_1px_rgba(0,0,0,0.12),inset_1px_1px_2px_rgba(255,255,255,0.6),inset_-1px_-1px_2px_rgba(0,0,0,0.06),0_4px_18px_rgba(17,19,24,0.1),0_1px_3px_rgba(17,19,24,0.06)] ring-1 ring-white/70",
+        )}
       />
+
+      {/* Bottom refraction tint */}
+      <span
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-x-[8%] bottom-0 h-[40%] rounded-full",
+          isSolid
+            ? "bg-gradient-to-t from-black/25 to-transparent"
+            : "bg-gradient-to-t from-black/[0.06] to-transparent",
+        )}
+      />
+
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
-      <GlassFilter filterId={filterId} />
     </>
   );
 
