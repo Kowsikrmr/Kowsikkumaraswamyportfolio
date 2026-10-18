@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import { ProjectCaseDialog } from "@/components/ui/project-case-dialog";
 import { caseStudies } from "@/data/case-studies";
 import { PHOTO_FORMAL } from "@/lib/photos";
@@ -169,7 +170,6 @@ function Portfolio() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      {/* Floating glass navigation */}
       <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4">
         <div className="glass-nav flex w-full max-w-5xl items-center justify-between gap-3 rounded-full px-3 py-2 sm:px-5 sm:py-2.5">
           <a href="#" className="flex shrink-0 items-center gap-2.5 pl-1">
@@ -231,7 +231,6 @@ function Portfolio() {
         </div>
       )}
 
-      {/* Hero */}
       <section className="relative px-4 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-36">
         <div className="mx-auto grid w-full max-w-5xl gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-16">
           <div className="animate-fade-up">
@@ -247,24 +246,29 @@ function Portfolio() {
             <div className="mt-2">
               <span className="font-script text-2xl text-champagne sm:text-3xl">Kowsik Naraayanan K</span>
             </div>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <a
                 href="#projects"
-                className="rounded-full bg-ink px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-graphite"
+                className="inline-flex h-10 items-center justify-center rounded-full bg-ink px-6 text-sm font-semibold text-white transition hover:bg-graphite"
               >
                 Explore my work
               </a>
-              <button
+              <LiquidButton
                 type="button"
+                size="lg"
                 onClick={downloadResume}
-                className="rounded-full border border-border bg-card px-6 py-2.5 text-sm font-semibold text-ink shadow-sm transition hover:bg-secondary"
+                aria-label="Download résumé PDF"
+                className="text-ink"
               >
                 Download résumé
-              </button>
+              </LiquidButton>
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-xs animate-fade-up lg:mx-0 lg:max-w-none" style={{ animationDelay: "0.12s" }}>
+          <div
+            className="relative mx-auto w-full max-w-xs animate-fade-up lg:mx-0 lg:max-w-none"
+            style={{ animationDelay: "0.12s" }}
+          >
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-secondary shadow-[var(--shadow-lift)]">
               <img
                 src={PHOTO_FORMAL}
@@ -274,7 +278,6 @@ function Portfolio() {
                 className="h-full w-full object-cover object-top"
               />
             </div>
-            {/* Minimal network diagram accent */}
             <svg
               className="pointer-events-none absolute -bottom-4 -left-4 hidden h-24 w-32 text-steel/30 sm:block"
               viewBox="0 0 120 80"
@@ -291,7 +294,6 @@ function Portfolio() {
         </div>
       </section>
 
-      {/* Highlights strip */}
       <section id="about" className="border-y border-border bg-card px-4 py-10 sm:px-6 sm:py-12">
         <div className="mx-auto grid w-full max-w-5xl gap-8 sm:grid-cols-3 sm:gap-6">
           {[
@@ -307,7 +309,6 @@ function Portfolio() {
         </div>
       </section>
 
-      {/* Expertise */}
       <Section id="expertise" label="Toolkit" title="Technical expertise">
         <div className="grid gap-6 sm:grid-cols-2">
           {expertise.map((g) => (
@@ -326,11 +327,13 @@ function Portfolio() {
         </div>
       </Section>
 
-      {/* Experience timeline */}
       <Section id="experience" label="Track record" title="Experience">
         <div className="space-y-10">
-          {experience.map((e, idx) => (
-            <article key={e.company} className="relative grid gap-4 border-l-2 border-border pl-6 sm:grid-cols-[1fr_auto] sm:gap-8">
+          {experience.map((e) => (
+            <article
+              key={e.company}
+              className="relative grid gap-4 border-l-2 border-border pl-6 sm:grid-cols-[1fr_auto] sm:gap-8"
+            >
               <div className="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-steel" />
               <div>
                 <h3 className="font-display text-2xl text-ink">{e.role}</h3>
@@ -363,7 +366,6 @@ function Portfolio() {
         </div>
       </Section>
 
-      {/* Projects — editorial list, no lazy-load polaroid */}
       <Section id="projects" label="Work" title="Selected work" dark>
         <p className="mb-8 max-w-2xl text-sm leading-relaxed text-white/60">
           Focus areas from enterprise engagements and academic work. Each entry reflects real responsibilities — not standalone products.
@@ -380,7 +382,7 @@ function Portfolio() {
               className="group rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left transition hover:border-white/20 hover:bg-white/[0.07]"
             >
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">{cs.context}</p>
-              <h3 className="mt-2 font-display text-xl text-white group-hover:text-white">{cs.title}</h3>
+              <h3 className="mt-2 font-display text-xl text-white">{cs.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-white/55">{cs.caption}</p>
               <p className="mt-4 text-xs font-medium text-champagne">View details →</p>
             </button>
@@ -388,7 +390,6 @@ function Portfolio() {
         </div>
       </Section>
 
-      {/* Education */}
       <Section id="education" label="Education" title="Education">
         <div className="grid gap-6 sm:grid-cols-2">
           {education.map((ed) => (
@@ -402,16 +403,15 @@ function Portfolio() {
         </div>
       </Section>
 
-      {/* Contact */}
       <Section id="contact" label="Contact" title="Get in touch">
         <div className="surface-card p-8 sm:p-10">
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
             Open to conversations about Azure cloud operations, identity and access management, DevOps, and related engineering roles.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="mailto:kowsikrmr@gmail.com"
-              className="rounded-full bg-ink px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-graphite"
+              className="inline-flex h-10 items-center justify-center rounded-full bg-ink px-6 text-sm font-semibold text-white transition hover:bg-graphite"
             >
               Email
             </a>
@@ -419,17 +419,19 @@ function Portfolio() {
               href="https://www.linkedin.com/in/kowsiknaraayanan/"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-border bg-card px-6 py-2.5 text-sm font-semibold text-ink transition hover:bg-secondary"
+              className="inline-flex h-10 items-center justify-center rounded-full border border-border bg-card px-6 text-sm font-semibold text-ink transition hover:bg-secondary"
             >
               LinkedIn
             </a>
-            <button
+            <LiquidButton
               type="button"
+              size="lg"
               onClick={downloadResume}
-              className="rounded-full border border-border bg-card px-6 py-2.5 text-sm font-semibold text-ink transition hover:bg-secondary"
+              aria-label="Download résumé PDF"
+              className="text-ink"
             >
               Résumé
-            </button>
+            </LiquidButton>
           </div>
           <p className="mt-6 font-script text-2xl text-champagne">— Kowsik</p>
         </div>
@@ -437,7 +439,6 @@ function Portfolio() {
 
       <ProjectCaseDialog study={caseStudies[caseIndex] ?? null} open={caseOpen} onOpenChange={setCaseOpen} />
 
-      {/* Footer */}
       <footer className="border-t border-border px-4 py-10 sm:px-6">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
           <div>
