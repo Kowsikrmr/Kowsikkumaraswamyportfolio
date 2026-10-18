@@ -21,19 +21,23 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
 });
 
+/** Icons via jsDelivr simple-icons@11 — more reliable than cdn.simpleicons.org */
+const SI = (slug: string) =>
+  `https://cdn.jsdelivr.net/npm/simple-icons@11.0.0/icons/${slug}.svg`;
+
 const stackLogos: Logo[] = [
-  { src: "https://cdn.simpleicons.org/microsoftazure/A8B4C4", alt: "Azure" },
-  { src: "https://cdn.simpleicons.org/microsoft/A8B4C4", alt: "Microsoft" },
-  { src: "https://cdn.simpleicons.org/amazonwebservices/A8B4C4", alt: "AWS" },
-  { src: "https://cdn.simpleicons.org/github/A8B4C4", alt: "GitHub" },
-  { src: "https://cdn.simpleicons.org/githubactions/A8B4C4", alt: "GitHub Actions" },
-  { src: "https://cdn.simpleicons.org/powerbi/A8B4C4", alt: "Power BI" },
-  { src: "https://cdn.simpleicons.org/microsoftsqlserver/A8B4C4", alt: "SQL Server" },
-  { src: "https://cdn.simpleicons.org/python/A8B4C4", alt: "Python" },
-  { src: "https://cdn.simpleicons.org/dotnet/A8B4C4", alt: ".NET / C#" },
-  { src: "https://cdn.simpleicons.org/jira/A8B4C4", alt: "Jira" },
-  { src: "https://cdn.simpleicons.org/confluence/A8B4C4", alt: "Confluence" },
-  { src: "https://cdn.simpleicons.org/gnubash/A8B4C4", alt: "Bash" },
+  { src: SI("microsoftazure"), alt: "Azure" },
+  { src: SI("microsoft"), alt: "Microsoft" },
+  { src: SI("amazonwebservices"), alt: "AWS" },
+  { src: SI("github"), alt: "GitHub" },
+  { src: SI("githubactions"), alt: "GitHub Actions" },
+  { src: SI("powerbi"), alt: "Power BI" },
+  { src: SI("microsoftsqlserver"), alt: "SQL Server" },
+  { src: SI("python"), alt: "Python" },
+  { src: SI("dotnet"), alt: ".NET / C#" },
+  { src: SI("jira"), alt: "Jira" },
+  { src: SI("confluence"), alt: "Confluence" },
+  { src: SI("gnubash"), alt: "Bash" },
 ];
 
 const expertise = [
@@ -290,8 +294,10 @@ function Portfolio() {
               <img
                 src={PHOTO_FORMAL}
                 alt="Kowsik Naraayanan K"
-                width={400}
-                height={500}
+                width={360}
+                height={462}
+                fetchPriority="high"
+                decoding="async"
                 className="h-full w-full object-cover object-top"
               />
             </div>
@@ -465,23 +471,7 @@ function Portfolio() {
             <p className="text-sm font-medium text-ink">Kowsik Naraayanan K</p>
             <p className="mt-0.5 text-xs text-muted-foreground">Azure Cloud Operations Engineer</p>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
-            <LiquidButton href="https://github.com/Kowsikrmr" target="_blank" rel="noopener noreferrer" size="sm">
-              GitHub
-            </LiquidButton>
-            <LiquidButton
-              href="https://www.linkedin.com/in/kowsiknaraayanan/"
-              target="_blank"
-              rel="noopener noreferrer"
-              size="sm"
-            >
-              LinkedIn
-            </LiquidButton>
-            <LiquidButton type="button" size="sm" onClick={downloadResume}>
-              Résumé
-            </LiquidButton>
-          </div>
-          <p className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()}</p>
+          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()}</p>
         </div>
       </footer>
     </main>
