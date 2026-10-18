@@ -11,6 +11,8 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 
+const SITE = "https://kowsikkumaraswamyportfolio.vercel.app";
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -78,6 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Azure Cloud Operations Engineer. Key Vault, Entra ID, RBAC, Data Factory, GitHub Actions CI/CD, and Power BI for enterprise clients.",
       },
       { name: "author", content: "Kowsik Naraayanan K" },
+      { name: "robots", content: "index, follow" },
       { property: "og:title", content: "Kowsik Naraayanan K — Azure Cloud Operations Engineer" },
       {
         property: "og:description",
@@ -85,10 +88,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Azure cloud operations, identity and access management, automation, and data workflows.",
       },
       { property: "og:type", content: "profile" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: SITE },
+      { property: "og:site_name", content: "Kowsik Naraayanan K" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Kowsik Naraayanan K — Azure Cloud Operations Engineer" },
       { name: "theme-color", content: "#080809" },
     ],
     links: [
+      { rel: "canonical", href: SITE },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
@@ -113,6 +120,12 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <a
+          href="#about"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-background"
+        >
+          Skip to content
+        </a>
         {children}
         <Scripts />
       </body>
