@@ -28,7 +28,7 @@ const SI = (slug: string) =>
 const stackLogos: Logo[] = [
   { src: SI("microsoftazure"), alt: "Azure" },
   { src: SI("microsoft"), alt: "Microsoft" },
-  { src: SI("amazonwebservices"), alt: "AWS" },
+  { src: SI("amazonaws"), alt: "AWS" },
   { src: SI("github"), alt: "GitHub" },
   { src: SI("githubactions"), alt: "GitHub Actions" },
   { src: SI("powerbi"), alt: "Power BI" },
@@ -471,7 +471,7 @@ function Portfolio() {
             <p className="text-sm font-medium text-ink">Kowsik Naraayanan K</p>
             <p className="mt-0.5 text-xs text-muted-foreground">Azure Cloud Operations Engineer</p>
           </div>
-          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()}</p>
+          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} · Built with care</p>
         </div>
       </footer>
     </main>
