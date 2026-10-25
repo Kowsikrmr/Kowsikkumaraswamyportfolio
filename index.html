@@ -1,1 +1,384 @@
-SEE_FILE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kowsik Naraayanan K — Azure Cloud Operations Engineer</title>
+  <meta name="description" content="Azure Cloud Operations Engineer with 2.5 years experience. Entra ID, Key Vault, RBAC, Blob Storage, GitHub Actions. Clients: HPi and Albertsons." />
+  <meta name="author" content="Kowsik Naraayanan K" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://kowsikkumaraswamyportfolio.vercel.app/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Kowsik Naraayanan K — Azure Cloud Operations Engineer" />
+  <meta property="og:description" content="Identity, secrets, and access on Azure. 2.5 years. HPi and Albertsons." />
+  <meta property="og:url" content="https://kowsikkumaraswamyportfolio.vercel.app/" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"Kowsik Naraayanan K","jobTitle":"Azure Cloud Operations Engineer","email":"kowsikrmr@gmail.com","telephone":"+917305768257","url":"https://kowsikkumaraswamyportfolio.vercel.app/","sameAs":["https://github.com/Kowsikrmr","https://linkedin.com/in/kowsiknaraayanan"],"alumniOf":[{"@type":"CollegeOrUniversity","name":"BITS Pilani"},{"@type":"CollegeOrUniversity","name":"Prince Shri Venkateshwara Padmavathy Engineering College"}],"knowsAbout":["Azure","Entra ID","Key Vault","RBAC","GitHub Actions","Cloud Security"]}
+  </script>
+  <style>
+    :root {
+      --bg: #f5f5f7; --surface: #ffffff; --ink: #1d1d1f; --ink-secondary: #6e6e73;
+      --ink-tertiary: #86868b; --rule: #d2d2d7; --accent: #0071e3; --accent-hover: #0077ed;
+      --radius: 18px; --radius-sm: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.06), 0 0 1px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 28px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.08);
+      --max: 1120px; --pad: clamp(1.25rem, 4vw, 2.5rem);
+      --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000; --surface: #1c1c1e; --ink: #f5f5f7; --ink-secondary: #a1a1a6;
+        --ink-tertiary: #6e6e73; --rule: #38383a; --accent: #2997ff; --accent-hover: #409cff;
+        --shadow: 0 2px 12px rgba(0,0,0,0.4); --shadow-hover: 0 8px 28px rgba(0,0,0,0.5);
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+    body { font-family: var(--font); font-size: 17px; line-height: 1.47; color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    .skip { position: absolute; left: -9999px; top: 0; z-index: 100; background: var(--ink); color: var(--bg); padding: 0.5rem 1rem; font-size: 0.875rem; }
+    .skip:focus { left: var(--pad); top: 0.5rem; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid color-mix(in srgb, var(--rule) 60%, transparent);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 48px; gap: 1rem; }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; text-decoration: none; }
+    .nav-brand:hover { color: var(--accent); text-decoration: none; }
+    .nav-links { display: none; gap: 1.75rem; list-style: none; }
+    @media (min-width: 760px) { .nav-links { display: flex; } }
+    .nav-links a { font-size: 12px; color: var(--ink-secondary); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta { font-size: 12px; font-weight: 500; color: #fff; background: var(--accent); padding: 0.4rem 1rem; border-radius: 980px; text-decoration: none; transition: background 0.2s; }
+    .nav-cta:hover { background: var(--accent-hover); text-decoration: none; }
+    .hero { padding: clamp(4rem, 12vw, 7rem) 0 clamp(3rem, 8vw, 5rem); }
+    .hero-grid { display: grid; gap: 3rem; align-items: center; }
+    @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; } }
+    .hero-label { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+    h1 { font-size: clamp(40px, 7vw, 56px); font-weight: 700; line-height: 1.07; letter-spacing: -0.025em; color: var(--ink); }
+    h1 .accent { background: linear-gradient(90deg, #bf4800, #d55b00 30%, #0071e3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    @media (prefers-color-scheme: dark) { h1 .accent { background: linear-gradient(90deg, #ff8a3d, #2997ff); -webkit-background-clip: text; background-clip: text; } }
+    .lead { font-size: 19px; line-height: 1.47; color: var(--ink-secondary); max-width: 36ch; margin-top: 1.25rem; letter-spacing: -0.01em; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; padding: 0.7rem 1.4rem; border-radius: 980px; border: none; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s; letter-spacing: -0.01em; }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); text-decoration: none; }
+    .btn-secondary { background: transparent; color: var(--accent); padding-left: 0.5rem; }
+    .btn-secondary:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .btn-secondary::after { content: " ›"; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 0.35rem 1.5rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+    .hero-meta span { font-size: 12px; font-weight: 500; color: var(--ink-tertiary); letter-spacing: -0.01em; }
+    .diagram-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.5rem 1.5rem 1.25rem; transition: box-shadow 0.3s; }
+    .diagram-card:hover { box-shadow: var(--shadow-hover); }
+    .diagram-label { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-tertiary); margin-bottom: 1rem; }
+    .diagram-svg { width: 100%; height: auto; display: block; }
+    .diagram-svg .node-box { fill: var(--bg); stroke: var(--rule); stroke-width: 1.5; }
+    .diagram-svg .node-text { font-family: var(--font); font-size: 11px; font-weight: 500; fill: var(--ink); text-anchor: middle; }
+    .diagram-svg .edge { stroke: var(--ink-tertiary); stroke-width: 1.5; fill: none; }
+    .diagram-svg .edge-accent { stroke: var(--accent); stroke-width: 1.75; fill: none; }
+    .diagram-svg .dot { fill: var(--accent); }
+    @media (prefers-reduced-motion: no-preference) {
+      .diagram-svg .edge-draw { stroke-dasharray: 140; stroke-dashoffset: 140; animation: draw 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards 0.2s; }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+    }
+    .portrait-row { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; padding: 1rem 1.15rem; background: var(--surface); border-radius: var(--radius-sm); box-shadow: var(--shadow); }
+    .portrait { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: top center; flex-shrink: 0; background: #0071e3; }
+    .portrait-info .name { font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+    .portrait-info .role { font-size: 13px; color: var(--ink-secondary); margin-top: 0.1rem; }
+    section { padding: clamp(3.5rem, 9vw, 5.5rem) 0; }
+    .section-head { margin-bottom: 2rem; }
+    .section-head h2 { font-size: clamp(28px, 4.5vw, 40px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: var(--ink); }
+    .section-head h2 .muted { color: var(--ink-secondary); font-weight: 600; }
+    .section-sub { font-size: 17px; color: var(--ink-secondary); margin-top: 0.5rem; max-width: 42ch; }
+    .cases { display: grid; gap: 1.25rem; }
+    @media (min-width: 800px) { .cases { grid-template-columns: repeat(3, 1fr); } }
+    .case { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; transition: box-shadow 0.3s, transform 0.25s; }
+    .case:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .case-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #bf4800; }
+    @media (prefers-color-scheme: dark) { .case-badge { color: #ff8a3d; } }
+    .case h3 { font-size: 21px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); }
+    .case-block strong { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-tertiary); margin-bottom: 0.3rem; }
+    .case-block p { font-size: 14px; line-height: 1.45; color: var(--ink-secondary); }
+    .case-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; padding-top: 0.5rem; }
+    .tag { font-size: 11px; font-weight: 500; padding: 0.25rem 0.55rem; border-radius: 980px; background: var(--bg); color: var(--ink-secondary); }
+    .timeline { display: grid; gap: 1.25rem; }
+    .role { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem; display: grid; gap: 1rem; }
+    @media (min-width: 700px) { .role { grid-template-columns: 140px 1fr; gap: 2rem; } }
+    .role-dates { font-size: 13px; font-weight: 500; color: var(--ink-tertiary); letter-spacing: -0.01em; }
+    .role-title { font-size: 21px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); }
+    .role-org { font-size: 15px; color: var(--ink-secondary); margin: 0.2rem 0 0.85rem; }
+    .role ul { list-style: none; display: grid; gap: 0.5rem; }
+    .role li { font-size: 15px; color: var(--ink-secondary); padding-left: 1.1rem; position: relative; line-height: 1.45; }
+    .role li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: 0.7; }
+    .expertise-grid { display: grid; gap: 1rem; }
+    @media (min-width: 640px) { .expertise-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 900px) { .expertise-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .expertise-item { background: var(--surface); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 1.35rem 1.25rem; transition: box-shadow 0.25s; }
+    .expertise-item:hover { box-shadow: var(--shadow-hover); }
+    .expertise-item h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 0.35rem; color: var(--ink); }
+    .expertise-item p { font-size: 14px; line-height: 1.45; color: var(--ink-secondary); }
+    .edu-list { display: grid; gap: 1rem; }
+    .edu-item { background: var(--surface); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 1.25rem 1.35rem; display: grid; gap: 0.2rem 1.5rem; }
+    @media (min-width: 600px) { .edu-item { grid-template-columns: 1fr auto; align-items: baseline; } }
+    .edu-school { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+    .edu-degree { font-size: 14px; color: var(--ink-secondary); }
+    .edu-year { font-size: 13px; font-weight: 500; color: var(--ink-tertiary); }
+    .notes-grid { display: grid; gap: 1rem; }
+    @media (min-width: 640px) { .notes-grid { grid-template-columns: 1fr 1fr; } }
+    .note { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.5rem 1.35rem; }
+    .note h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 0.4rem; color: var(--ink); }
+    .note p { font-size: 14px; color: var(--ink-secondary); line-height: 1.45; }
+    .note .status { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-tertiary); margin-top: 1rem; }
+    .contact-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 2rem 1.75rem; display: flex; flex-wrap: wrap; gap: 1.25rem 2.5rem; align-items: center; justify-content: space-between; }
+    .contact-card p { font-size: 19px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; list-style: none; }
+    .contact-links a { font-size: 15px; font-weight: 500; color: var(--accent); text-decoration: none; }
+    .contact-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); margin-top: 1rem; }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem; font-size: 12px; color: var(--ink-tertiary); }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap nav">
+      <a class="nav-brand" href="#">Kowsik N. K</a>
+      <nav aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="#work">Work</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#expertise">Expertise</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="nav-cta" href="#resume">Résumé</a>
+    </div>
+  </header>
+  <main id="main">
+    <div class="hero wrap">
+      <div class="hero-grid">
+        <div>
+          <p class="hero-label">Azure Cloud Operations Engineer</p>
+          <h1>Identity, secrets,<br />and access control<br /><span class="accent">on Azure.</span></h1>
+          <p class="lead">I configure, secure, and optimize Azure environments for enterprise clients. Entra ID, Key Vault, RBAC, Blob Storage, and automation with Azure CLI and GitHub Actions.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#work">Selected work</a>
+            <a class="btn btn-secondary" href="#resume" id="resume">Download résumé</a>
+          </div>
+          <div class="hero-meta">
+            <span>2.5 years</span>
+            <span>HPi · Albertsons</span>
+            <span>M.Tech · BITS Pilani</span>
+          </div>
+        </div>
+        <div>
+          <div class="diagram-card">
+            <p class="diagram-label">Access path · simplified</p>
+            <svg class="diagram-svg" viewBox="0 0 320 200" role="img" aria-label="Architecture: App authenticates via Entra ID Service Principal, retrieves secrets from Key Vault, then accesses Blob Storage">
+              <rect class="node-box" x="8" y="16" width="92" height="34" rx="8" />
+              <text class="node-text" x="54" y="37">App / Pipeline</text>
+              <rect class="node-box" x="114" y="16" width="96" height="34" rx="8" />
+              <text class="node-text" x="162" y="37">Entra ID SP</text>
+              <rect class="node-box" x="224" y="16" width="88" height="34" rx="8" />
+              <text class="node-text" x="268" y="37">Key Vault</text>
+              <rect class="node-box" x="114" y="130" width="96" height="34" rx="8" />
+              <text class="node-text" x="162" y="151">Blob Storage</text>
+              <rect class="node-box" x="8" y="130" width="92" height="34" rx="8" />
+              <text class="node-text" x="54" y="151">RBAC Scope</text>
+              <path class="edge edge-draw edge-accent" d="M100 33 H114" />
+              <path class="edge edge-draw edge-accent" d="M210 33 H224" />
+              <path class="edge edge-draw" d="M268 50 V90 H162 V130" />
+              <path class="edge edge-draw" d="M114 147 H100" />
+              <path class="edge edge-draw" d="M54 50 V130" />
+              <circle class="dot" cx="100" cy="33" r="2.5" />
+              <circle class="dot" cx="210" cy="33" r="2.5" />
+              <circle class="dot" cx="268" cy="50" r="2.5" />
+              <circle class="dot" cx="162" cy="130" r="2.5" />
+              <circle class="dot" cx="100" cy="147" r="2.5" />
+            </svg>
+          </div>
+          <div class="portrait-row">
+            <img class="portrait" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Crect fill='%230071e3' width='128' height='128' rx='64'/%3E%3Ctext x='64' y='74' text-anchor='middle' fill='white' font-family='system-ui,sans-serif' font-size='42' font-weight='600'%3EKN%3C/text%3E%3C/svg%3E" alt="Kowsik Naraayanan K" width="64" height="64" loading="eager" />
+            <div class="portrait-info">
+              <p class="name">Kowsik Naraayanan K</p>
+              <p class="role">Azure · Identity · Secrets · Automation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Selected work. <span class="muted">Three case studies.</span></h2>
+        </div>
+        <div class="cases">
+          <article class="case">
+            <span class="case-badge">01 · Secrets</span>
+            <h3>Key Vault secret automation</h3>
+            <div class="case-block"><strong>Problem</strong><p>Manual secret handling across environments created risk of expired credentials and inconsistent access.</p></div>
+            <div class="case-block"><strong>What I built</strong><p>Azure Key Vault with automated renewal, integrated with Azure services. Secrets stay in the vault. Applications use managed paths instead of long-lived credentials.</p></div>
+            <div class="case-block"><strong>Outcome</strong><p>Secret storage and lifecycle became centralized and auditable. Reduced manual handling in production paths.</p></div>
+            <div class="case-stack">
+              <span class="tag">Key Vault</span><span class="tag">Azure CLI</span><span class="tag">Managed Identity</span>
+            </div>
+          </article>
+          <article class="case">
+            <span class="case-badge">02 · Access</span>
+            <h3>Entra ID & RBAC least privilege</h3>
+            <div class="case-block"><strong>Problem</strong><p>Broad role assignments and service principal permissions increased the blast radius of any credential leak.</p></div>
+            <div class="case-block"><strong>What I built</strong><p>Provisioned users, assigned roles, and enforced RBAC policies. Configured Service Principals in Microsoft Entra ID for secure authentication.</p></div>
+            <div class="case-block"><strong>Outcome</strong><p>Access aligned to least privilege. Clearer ownership of who can touch production resources.</p></div>
+            <div class="case-stack">
+              <span class="tag">Entra ID</span><span class="tag">RBAC</span><span class="tag">Service Principals</span>
+            </div>
+          </article>
+          <article class="case">
+            <span class="case-badge">03 · Research</span>
+            <h3>AWS IAM security model</h3>
+            <div class="case-block"><strong>Problem</strong><p>M.Tech project: design an identity model that enforces least privilege with RBAC and ABAC, plus strong audit trails.</p></div>
+            <div class="case-block"><strong>What I built</strong><p>AWS IAM solution using RBAC, ABAC, least-privilege policies, MFA, and CloudTrail/S3 audit logging.</p></div>
+            <div class="case-block"><strong>Outcome</strong><p>Working model demonstrating access control and cloud security compliance readiness.</p></div>
+            <div class="case-stack">
+              <span class="tag">AWS IAM</span><span class="tag">RBAC</span><span class="tag">ABAC</span><span class="tag">CloudTrail</span><span class="tag">S3</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Experience. <span class="muted">2.5 years.</span></h2>
+        </div>
+        <div class="timeline">
+          <article class="role">
+            <div class="role-dates">Apr 2025 — Present</div>
+            <div>
+              <p class="role-title">Cloud Operations Analyst</p>
+              <p class="role-org">BCforward · Client: HPi (Hewlett-Packard)</p>
+              <ul>
+                <li>Administer Azure Blob Storage lifecycle operations with Azure CLI Bash scripts and configuration.</li>
+                <li>Create and manage Azure Key Vaults for secret storage and lifecycle.</li>
+                <li>Control access through IAM: provision users, assign roles, enforce RBAC policies.</li>
+                <li>Design and deploy Virtual Networks for production environments.</li>
+                <li>Earlier in the role: ETL across five sources, SQL Server ingestion, and Power BI Control Tower dashboards.</li>
+              </ul>
+            </div>
+          </article>
+          <article class="role">
+            <div class="role-dates">Jan 2024 — Jan 2025</div>
+            <div>
+              <p class="role-title">Associate Software Engineer</p>
+              <p class="role-org">Nisum Consulting · Client: Albertsons (Safeway)</p>
+              <ul>
+                <li>Implemented Azure Key Vault with automated renewal for secure secret storage.</li>
+                <li>Configured Service Principals in Microsoft Entra ID for authentication and authorization.</li>
+                <li>Built Azure Blob Storage solutions balanced for performance and cost.</li>
+                <li>Developed Azure Data Factory integration workflows and oversaw pipelines.</li>
+                <li>Automated testing and deployment with GitHub Actions CI/CD workflows.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="expertise">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Expertise.</h2>
+          <p class="section-sub">Where I spend most of my time and deliver the most value.</p>
+        </div>
+        <div class="expertise-grid">
+          <div class="expertise-item"><h3>Identity & access</h3><p>Entra ID, RBAC, service principals, least-privilege design, user and role provisioning.</p></div>
+          <div class="expertise-item"><h3>Secrets management</h3><p>Key Vault, automated renewal, eliminating long-lived credentials in pipelines and apps.</p></div>
+          <div class="expertise-item"><h3>Automation</h3><p>Azure CLI, Bash, GitHub Actions. Repeatable changes instead of click-ops.</p></div>
+          <div class="expertise-item"><h3>Storage & networking</h3><p>Blob Storage lifecycle, VNets, and the access paths that connect them.</p></div>
+          <div class="expertise-item"><h3>Data pipelines</h3><p>Azure Data Factory, SQL Server ingestion, Power BI dashboards for operations metrics.</p></div>
+          <div class="expertise-item"><h3>Cloud security mindset</h3><p>Audit trails, least privilege, and systems that fail closed when identity is wrong.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="wrap">
+        <div class="section-head"><h2>Education.</h2></div>
+        <div class="edu-list">
+          <div class="edu-item">
+            <div>
+              <p class="edu-school">BITS Pilani</p>
+              <p class="edu-degree">M.Tech Cloud Computing · Project: AWS IAM with RBAC, ABAC, MFA, CloudTrail/S3</p>
+            </div>
+            <p class="edu-year">2025 — Present</p>
+          </div>
+          <div class="edu-item">
+            <div>
+              <p class="edu-school">Prince Shri Venkateshwara Padmavathy Engineering College</p>
+              <p class="edu-degree">B.E. Computer Science and Engineering · CGPA 8.3/10</p>
+            </div>
+            <p class="edu-year">2019 — 2023</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="notes">
+      <div class="wrap">
+        <div class="section-head"><h2>Notes. <span class="muted">Writing soon.</span></h2></div>
+        <div class="notes-grid">
+          <div class="note">
+            <h3>Rotating Key Vault secrets with managed identities</h3>
+            <p>How to take long-lived secrets out of pipelines and let the platform handle rotation.</p>
+            <p class="status">Planned</p>
+          </div>
+          <div class="note">
+            <h3>Scoping RBAC for service principals</h3>
+            <p>Practical patterns for keeping service principal permissions tight across subscriptions.</p>
+            <p class="status">Planned</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="section-head"><h2>Contact.</h2></div>
+        <div class="contact-card">
+          <p>Let's talk about Azure identity and access.</p>
+          <ul class="contact-links">
+            <li><a href="mailto:kowsikrmr@gmail.com">kowsikrmr@gmail.com</a></li>
+            <li><a href="tel:+917305768257">+91 73057 68257</a></li>
+            <li><a href="https://linkedin.com/in/kowsiknaraayanan" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://github.com/Kowsikrmr" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap footer-inner">
+      <span>Kowsik Naraayanan K · Azure Cloud Operations</span>
+      <span>Designed for clarity, not decoration</span>
+    </div>
+  </footer>
+</body>
+</html>
